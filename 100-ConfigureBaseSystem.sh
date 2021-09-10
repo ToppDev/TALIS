@@ -1,7 +1,21 @@
 #!/bin/bash
+# ToppDev's Artix/Arch Linux Installation Scripts (TALIS)
+# by Thomas Topp <dev@topp.cc>
+# License: GNU GPLv3
 
 # This script automates the installation of artix linux
 # https://wiki.artixlinux.org/Main/Installation#Configure_the_base_system
+
+# ########################################################################################################## #
+#                                                  Functions                                                 #
+# ########################################################################################################## #
+
+# Prints the privided string and exits the script
+# @param $1 Error message
+error() {
+    printf "%s\n" "$1" >&2
+    exit 1
+}
 
 # ########################################################################################################## #
 #                                              Necessary things                                              #
@@ -108,6 +122,9 @@ createUser() {
         usermod -a -G wheel "$1" && mkdir -p /home/"$1" && chown "$1":wheel /home/"$1"
     # Additional groups
     gpasswd -a $1 uucp >/dev/null 2>&1 # For serial usb reading
+    # Make zsh the default shell for the user.
+    chsh -s /bin/zsh "$1" >/dev/null 2>&1
+    sudo -u "$1" mkdir -p "/home/$1/.cache/zsh/"
 }
 
 # Sets the password for the specified user
@@ -120,6 +137,7 @@ setPassword() {
 # Read and set new password for root
 readPassword root
 setPassword "root" "$password" || error "Error setting root password"
+unset password
 
 # Read username and create a user
 readUsername
@@ -128,9 +146,7 @@ createUser "$username" || error "Error creating user '$username'"
 # Read and set new password for the user
 readPassword "$username"
 setPassword "$username" "$password" || error "Error setting user password"
-
-# Clean up
-unset password rootPassword
+unset password
 
 # ########################################################################################################## #
 #                                            Network configuration                                           #
@@ -154,6 +170,14 @@ pacman -S --noconfirm --needed networkmanager networkmanager-runit
 ln -s /etc/runit/sv/NetworkManager /etc/runit/runsvdir/default
 
 # ########################################################################################################## #
+#                                           Clone TALIS repository                                           #
+# ########################################################################################################## #
+
+mkdir -p /home/$username/.local/src
+chown "$username":wheel /home/$username/.local/src
+git clone https://github.com/ToppDev/TALIS.git /home/$username/.local/src
+
+# ########################################################################################################## #
 #                                              Reboot the system                                             #
 # ########################################################################################################## #
 
@@ -162,7 +186,6 @@ echo "#               Script finished              #"
 echo "#                                            #"
 echo "# Reboot and enter into the new installation #"
 echo "#                                            #"
-echo "# exit                                       #"
 echo "# exit                                       #"
 echo "# umount -R /mnt                             #"
 echo "# reboot                                     #"
