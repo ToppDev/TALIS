@@ -142,6 +142,15 @@ ln -s /etc/runit/sv/NetworkManager /etc/runit/runsvdir/default >/dev/null 2>&1
 sed -i 's/Exec=.*/Exec=\/usr\/bin\/wpa_supplicant -u -s/g' /usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.service
 
 # ########################################################################################################## #
+#                                             Syslog replacement                                             #
+# ########################################################################################################## #
+
+# Runit has a different type of logging, which relies on creating log scripts
+# However there are a lot of programs not respecting this, so you need a syslog replacement
+pacman -S socklog
+ln -s /etc/runit/sv/socklog /etc/runit/runsvdir/default >/dev/null 2>&1
+
+# ########################################################################################################## #
 #                                              Reboot the system                                             #
 # ########################################################################################################## #
 
