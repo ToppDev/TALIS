@@ -7,6 +7,7 @@
     ```
     cd /tmp
     curl -LO https://raw.githubusercontent.com/ToppDev/TALIS/main/100-ConfigureBaseSystem.sh
+    chmod +x 100-ConfigureBaseSystem.sh
     ./100-ConfigureBaseSystem.sh
     ```
 - Reboot the system and login into the installed system as root user

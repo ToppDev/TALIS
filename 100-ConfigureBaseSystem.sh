@@ -66,7 +66,7 @@ if [ "$(ls -A /sys/firmware/efi/efivars)" ]; then # UEFI systems
     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
 else # BIOS systems
     grub-install --recheck /dev/sda
-done
+fi
 
 # Install ucode (Processor manufacturer stability and security updates to the processor microcode)
 if grep -q "AMD" /proc/cpuinfo; then
@@ -104,13 +104,20 @@ readUsername() {
 # @param $1 username to request password for
 # @return $password
 readPassword() {
-    read -p "Please enter a password for user '$1': " password
-    read -p "Retype password: " password2
+    stty -echo
+    printf "Please enter a password for user '$1': "
+    read password
+    printf "\nRetype password: "
+    read password2
     while ! [ "$password" = "$password2" ]; do
         unset password2
-        read -p "Passwords do not match. Please enter a password for user '$1': " password
-        read -p "Retype password: " password2
+        printf "\nPasswords do not match. Please enter a password for user '$1': "
+        read password
+        printf "\nRetype password: "
+        read password2
     done
+    printf "\n"
+    stty echo
     unset password2
 }
 
@@ -135,16 +142,16 @@ setPassword() {
 }
 
 # Read and set new password for root
-readPassword root
+readPassword root || error "Error reading the root password"
 setPassword "root" "$password" || error "Error setting root password"
 unset password
 
 # Read username and create a user
-readUsername
+readUsername || error "Error reading the username"
 createUser "$username" || error "Error creating user '$username'"
 
 # Read and set new password for the user
-readPassword "$username"
+readPassword "$username" || error "Error reading the user password"
 setPassword "$username" "$password" || error "Error setting user password"
 unset password
 
@@ -175,7 +182,7 @@ ln -s /etc/runit/sv/NetworkManager /etc/runit/runsvdir/default
 
 mkdir -p /home/$username/.local/src
 chown "$username":wheel /home/$username/.local/src
-git clone https://github.com/ToppDev/TALIS.git /home/$username/.local/src
+git clone https://github.com/ToppDev/TALIS.git /home/$username/.local/src/TALIS
 
 # ########################################################################################################## #
 #                                              Reboot the system                                             #
