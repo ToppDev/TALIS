@@ -147,7 +147,7 @@ sed -i 's/Exec=.*/Exec=\/usr\/bin\/wpa_supplicant -u -s/g' /usr/share/dbus-1/sys
 
 # Runit has a different type of logging, which relies on creating log scripts
 # However there are a lot of programs not respecting this, so you need a syslog replacement
-pacman -S socklog
+pacman -S --noconfirm --needed socklog
 ln -s /etc/runit/sv/socklog /etc/runit/runsvdir/default >/dev/null 2>&1
 
 # ########################################################################################################## #
