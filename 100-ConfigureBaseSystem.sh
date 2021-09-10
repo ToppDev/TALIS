@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # ToppDev's Artix/Arch Linux Installation Scripts (TALIS)
 # by Thomas Topp <dev@topp.cc>
 # License: GNU GPLv3
@@ -17,12 +17,33 @@ error() {
     exit 1
 }
 
-# ########################################################################################################## #
-#                                              Necessary things                                              #
-# ########################################################################################################## #
+# Prompts user for a password
+# @param $1 username to request password for
+# @return $password
+readPassword() {
+    stty -echo
+    printf "Please enter a password for user '$1': "
+    read password
+    printf "\nRetype password: "
+    read password2
+    while ! [ "$password" = "$password2" ]; do
+        unset password2
+        printf "\nPasswords do not match. Please enter a password for user '$1': "
+        read password
+        printf "\nRetype password: "
+        read password2
+    done
+    printf "\n"
+    stty echo
+    unset password2
+}
 
-pacman --noconfirm --needed -Sy curl base-devel git ntp zsh || error "This script only works as root user, on an Arch-based distribution and you have to be connected to the internet!"
-sed -i '/# %wheel\tALL=(ALL) ALL/s/^..//' /etc/sudoers || error "etc/sudoers file does not exist. Please install 'sudo' manually first"
+# Sets the password for the specified user
+# @param $1 username to create
+# @param $2 password for the user
+setPassword() {
+    echo "$1:$2" | chpasswd
+}
 
 # ########################################################################################################## #
 #                                              Set system clock                                              #
@@ -91,68 +112,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 #                                                 Add user(s)                                                #
 # ########################################################################################################## #
 
-# Prompts user for a name fot the user account
-# @return $username
-readUsername() {
-    read -p "Please enter a name for the user account: " username
-    while ! echo "$username" | grep -q "^[a-z_][a-z0-9_-]*$"; do
-        read -p "Invalid username. Please enter a name for the user account: " username
-    done
-}
-
-# Prompts user for a password
-# @param $1 username to request password for
-# @return $password
-readPassword() {
-    stty -echo
-    printf "Please enter a password for user '$1': "
-    read password
-    printf "\nRetype password: "
-    read password2
-    while ! [ "$password" = "$password2" ]; do
-        unset password2
-        printf "\nPasswords do not match. Please enter a password for user '$1': "
-        read password
-        printf "\nRetype password: "
-        read password2
-    done
-    printf "\n"
-    stty echo
-    unset password2
-}
-
-# Creates the specified user or modifies if already exist
-# @param $1 username to create
-createUser() {
-    echo "Creating user $1"
-    useradd -m -g wheel -s /bin/zsh "$1" >/dev/null 2>&1 ||
-        usermod -a -G wheel "$1" && mkdir -p /home/"$1" && chown "$1":wheel /home/"$1"
-    # Additional groups
-    gpasswd -a $1 uucp >/dev/null 2>&1 # For serial usb reading
-    # Make zsh the default shell for the user.
-    chsh -s /bin/zsh "$1" >/dev/null 2>&1
-    sudo -u "$1" mkdir -p "/home/$1/.cache/zsh/"
-}
-
-# Sets the password for the specified user
-# @param $1 username to create
-# @param $2 password for the user
-setPassword() {
-    echo "$1:$2" | chpasswd
-}
-
 # Read and set new password for root
 readPassword root || error "Error reading the root password"
 setPassword "root" "$password" || error "Error setting root password"
-unset password
-
-# Read username and create a user
-readUsername || error "Error reading the username"
-createUser "$username" || error "Error creating user '$username'"
-
-# Read and set new password for the user
-readPassword "$username" || error "Error reading the user password"
-setPassword "$username" "$password" || error "Error setting user password"
 unset password
 
 # ########################################################################################################## #
@@ -174,15 +136,10 @@ echo "127.0.1.1     $hostname.localdomain $hostname" >> /etc/hosts
 
 # NetworkManager
 pacman -S --noconfirm --needed networkmanager networkmanager-runit
-ln -s /etc/runit/sv/NetworkManager /etc/runit/runsvdir/default
+ln -s /etc/runit/sv/NetworkManager /etc/runit/runsvdir/default >/dev/null 2>&1
 
-# ########################################################################################################## #
-#                                           Clone TALIS repository                                           #
-# ########################################################################################################## #
-
-mkdir -p /home/$username/.local/src
-chown "$username":wheel /home/$username/.local/src
-git clone https://github.com/ToppDev/TALIS.git /home/$username/.local/src/TALIS
+# Log the output from wpa_supplicant to syslog instead of stdout
+sed -i 's/Exec=.*/Exec=\/usr\/bin\/wpa_supplicant -u -s/g' /usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.service
 
 # ########################################################################################################## #
 #                                              Reboot the system                                             #
