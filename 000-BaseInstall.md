@@ -100,7 +100,7 @@ swapon -L SWAP                       # Swap
 On ArchLinux use `pacstrap`, `genfstab` and `arch-chroot`
 ```
 # Install base system
-basestrap /mnt base base-devel runit elogind-runit linux linux-firmware vim
+basestrap /mnt base base-devel runit elogind-runit linux linux-firmware vim bash-completion
 
 # Generate an fstab file
 fstabgen -U /mnt >> /mnt/etc/fstab

@@ -7,47 +7,27 @@
 # https://wiki.artixlinux.org/Main/Installation#Configure_the_base_system
 
 # ########################################################################################################## #
-#                                                  Functions                                                 #
+#                                               Helper scripts                                               #
 # ########################################################################################################## #
 
-# Prints the privided string and exits the script
-# @param $1 Error message
-error() {
-    printf "%s\n" "$1" >&2
-    exit 1
-}
+scriptdir="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
-# Prompts user for a password
-# @param $1 username to request password for
-# @return $password
-readPassword() {
-    stty -echo
-    printf "Please enter a password for user '$1': "
-    read password
-    printf "\nRetype password: "
-    read password2
-    while ! [ "$password" = "$password2" ]; do
-        unset password2
-        printf "\nPasswords do not match. Please enter a password for user '$1': "
-        read password
-        printf "\nRetype password: "
-        read password2
-    done
-    printf "\n"
-    stty echo
-    unset password2
-}
+source "$scriptdir/helper/color.sh"
+source "$scriptdir/helper/log.sh"
+source "$scriptdir/helper/user.sh"
+source "$scriptdir/helper/checkArchRootInternet.sh"
 
-# Sets the password for the specified user
-# @param $1 username to create
-# @param $2 password for the user
-setPassword() {
-    echo "$1:$2" | chpasswd
-}
+# ########################################################################################################## #
+#                                       Check Arch distro and root user                                      #
+# ########################################################################################################## #
+
+check_arch_root_internet
 
 # ########################################################################################################## #
 #                                              Set system clock                                              #
 # ########################################################################################################## #
+
+box "Set system clock"
 
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 hwclock --systohc
@@ -55,6 +35,8 @@ hwclock --systohc
 # ########################################################################################################## #
 #                                                Localization                                                #
 # ########################################################################################################## #
+
+box "Localization"
 
 # Generate locale
 sed -i -e '/#de_DE/s/^.//' /etc/locale.gen
@@ -78,6 +60,8 @@ done
 # ########################################################################################################## #
 #                                                 Boot loader                                                #
 # ########################################################################################################## #
+
+box "Boot loader"
 
 # Install dependencies
 pacman -S --noconfirm --needed grub efibootmgr # Dual boot would need: os-prober
@@ -112,14 +96,37 @@ grub-mkconfig -o /boot/grub/grub.cfg
 #                                                 Add user(s)                                                #
 # ########################################################################################################## #
 
+box "Add users"
+
 # Read and set new password for root
 readPassword root || error "Error reading the root password"
 setPassword "root" "$password" || error "Error setting root password"
 unset password
 
+readUsername || error "Could not read the username"
+readPassword || error "Could not read the password"
+
+createUser "$name" || error "Error while creating the user"
+setPassword "$name" "$password" || error "Error while setting the user password"
+
+# Create directoy to download git files to
+export repodir="/home/$name/.local/src"
+mkdir -p "$repodir"
+chown -R "$name":wheel "$(dirname "$repodir")"
+
+# ########################################################################################################## #
+#                                            User root permissions                                           #
+# ########################################################################################################## #
+
+# Allow user to run sudo without password. Since AUR programs must be installed
+# in a fakeroot environment, this is required for all builds with AUR.
+perms "%wheel ALL=(ALL) NOPASSWD: ALL"
+
 # ########################################################################################################## #
 #                                            Network configuration                                           #
 # ########################################################################################################## #
+
+box "Network configuration"
 
 # Network hostname
 read -p "Please type the hostname for this machine: " hostname
@@ -145,22 +152,39 @@ sed -i 's/Exec=.*/Exec=\/usr\/bin\/wpa_supplicant -u -s/g' /usr/share/dbus-1/sys
 #                                             Syslog replacement                                             #
 # ########################################################################################################## #
 
+box "Syslog replacement"
+
 # Runit has a different type of logging, which relies on creating log scripts
 # However there are a lot of programs not respecting this, so you need a syslog replacement
 pacman -S --noconfirm --needed socklog
 ln -s /etc/runit/sv/socklog /etc/runit/runsvdir/default >/dev/null 2>&1
 
 # ########################################################################################################## #
+#                                                TALIS scripts                                               #
+# ########################################################################################################## #
+
+[ ! -f $repodir/TALIS ] && git clone https://github.com/ToppDev/TALIS.git $repodir/TALIS
+
+# ########################################################################################################## #
 #                                              Reboot the system                                             #
 # ########################################################################################################## #
 
-echo "##############################################"
-echo "#               Script finished              #"
-echo "#                                            #"
-echo "# Reboot and enter into the new installation #"
-echo "#                                            #"
-echo "# exit                                       #"
-echo "# umount -R /mnt                             #"
-echo "# reboot                                     #"
-echo "#                                            #"
-echo "##############################################"
+echo -e "$C_LIGHT_GREEN"
+echo "####################################################"
+echo "#               Script finished                    #"
+echo "#                                                  #"
+echo "# Reboot and enter into the new installation       #"
+echo "# as the user you just created.                    #"
+echo "#                                                  #"
+echo -e"# Execute the script ${C_ORANGE}020-PostInstallationConfig.sh${C_LIGHT_GREEN} #"
+echo "# after login. It can be found under               #"
+echo "# ~/.local/src/TALIS                               #"
+echo "#                                                  #"
+echo "####################################################"
+echo "#                                                  #"
+echo "# exit                                             #"
+echo "# umount -R /mnt                                   #"
+echo "# reboot                                           #"
+echo "#                                                  #"
+echo "####################################################"
+echo -e "$C_NO"
