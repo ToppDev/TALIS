@@ -38,7 +38,7 @@ usage() {
 while getopts ":a:r:b:p:h" flag; do
     case "${flag}" in
         h) usage ;;
-        r) dotfilesrepo=${OPTARG} && git ls-remote "$dotfilesrepo" >/dev/null || exit 1 ;;
+        r) dotfilesrepo=${OPTARG} ;;
         b) repobranch=${OPTARG} ;;
         *) printf "Invalid option: -%s\\n" "$OPTARG" && exit 1 ;;
     esac
@@ -46,6 +46,8 @@ done
 
 [ -z "$dotfilesrepo" ] && echo -e "Dotfiles repository is required. Please specify -r\\n" && usage
 [ -z "$repobranch" ] && repobranch="main"
+
+git ls-remote "$dotfilesrepo" -b $repobranch | grep -q main || error "The remote repository $dotfilesrepo on branch $repobranch can't be accessed."
 
 # ########################################################################################################## #
 #                                              Check Arch distro                                             #
