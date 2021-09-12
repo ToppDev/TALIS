@@ -192,7 +192,7 @@ sudo systemctl enable lightdm.service
 box "Zsh"
 
 # Install Oh My Zsh
-if [ ! -d "/home/$(whoami)/.local/share/oh-my-zsh" ]; then
+if [ ! -d "/home/$(whoami)/.oh-my-zsh" ]; then
     # TODO Add later again
     #export ZSH="/home/$(whoami)/.local/share/oh-my-zsh"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
@@ -234,11 +234,11 @@ pacinstall zsh zsh-syntax-highlighting
 box "Dotfiles"
 
 xdg-user-dirs-update --force
-rmdir "/home/$(whoami)/Desktop"
-rmdir "/home/$(whoami)/Music"
-rmdir "/home/$(whoami)/Public"
-rmdir "/home/$(whoami)/Templates"
-rmdir "/home/$(whoami)/Videos"
+rmdir "/home/$(whoami)/Desktop" >/dev/null 2>&1
+rmdir "/home/$(whoami)/Music" >/dev/null 2>&1
+rmdir "/home/$(whoami)/Public" >/dev/null 2>&1
+rmdir "/home/$(whoami)/Templates" >/dev/null 2>&1
+rmdir "/home/$(whoami)/Videos" >/dev/null 2>&1
 
 # Install the dotfiles in the user's home directory
 info "Downloading and installing config files..."
@@ -251,7 +251,7 @@ cp -rfT "$dir" "/home/$(whoami)"
 rm -f "/home/$(whoami)/README.md" #"/home/$(whoami)/LICENSE" "/home/$(whoami)/FUNDING.yml"
 
 # make git ignore deleted LICENSE & README.md files
-git --git-dir "/home/$(whoami)" --work-tree "/home/$(whoami)" update-index --assume-unchanged "/home/$(whoami)/README.md" #"/home/$(whoami)/LICENSE" "/home/$(whoami)/FUNDING.yml"
+git --git-dir "/home/$(whoami)/.git" --work-tree "/home/$(whoami)" update-index --assume-unchanged "/home/$(whoami)/README.md" #"/home/$(whoami)/LICENSE" "/home/$(whoami)/FUNDING.yml"
 
 # ########################################################################################################## #
 #                                            Misc program configs                                            #
