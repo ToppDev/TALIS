@@ -181,7 +181,7 @@ systemctl enable NetworkManager
 
 box "Storing TALIS repo in user folder"
 
-[ ! -d $repodir/TALIS ] && git clone https://github.com/ToppDev/TALIS.git $repodir/TALIS
+[ ! -d $repodir/TALIS ] && sudo -u "$name" git clone https://github.com/ToppDev/TALIS.git $repodir/TALIS
 
 # ########################################################################################################## #
 #                                              Reboot the system                                             #

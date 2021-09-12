@@ -6,19 +6,15 @@
 # ########################################################################################################## #
 
 aurinstall() {
-    for pkg in "$@"; do
-        info "Installing \`$pkg\` from the AUR"
-        trizen -S --noconfirm --noedit --needed "$pkg"
-    done
+    info "Installing \`"$@"\` from the AUR"
+    trizen -S --noconfirm --noedit --needed $@
 }
 
 pacinstall() {
-    for pkg in "$@"; do
-        info "Installing \`$pkg\`"
-        if [ $(whoami) = "root" ]; then
-            pacman -S --noconfirm --needed "$pkg"
-        else
-            sudo pacman -S --noconfirm --needed "$pkg"
-        fi
-    done
+    info "Installing \`$@\`"
+    if [ $(whoami) = "root" ]; then
+        pacman -S --noconfirm --needed $@
+    else
+        sudo pacman -S --noconfirm --needed $@
+    fi
 }
