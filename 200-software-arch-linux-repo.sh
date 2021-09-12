@@ -79,7 +79,7 @@ pacinstall cppcheck
 pacinstall code
 info "Installing VSCode extensions"
 mkdir -p ~/.config/Code\ -\ OSS/User
-vsextensions=$(cat "$scriptdir/vscode-extensions")
+vsextensions=$(cat "$scriptdir/vscode/extensions")
 while IFS= read -r line; do
     code --install-extension $line
 done <<< "$vsextensions"
