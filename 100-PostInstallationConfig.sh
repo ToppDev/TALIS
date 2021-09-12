@@ -105,7 +105,7 @@ sudo pacman -Sy
 
 box "Necessary Tools"
 
-sudo pacman --noconfirm --needed -Sy curl base-devel git ntp zsh
+pacinstall curl base-devel git ntp zsh
 
 # Use all cores for compilation
 sudo sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
@@ -122,10 +122,9 @@ sudo ntpdate 0.europe.pool.ntp.org >/dev/null 2>&1
 # https://github.com/trizen/trizen
 trizenexists=`pacman -Qs trizen`
 if [ ! "$trizenexists" ]; then
-    pacinstall git
     git clone https://aur.archlinux.org/trizen.git /tmp/git-trizen
     cd /tmp/git-trizen
-    makepkg -si
+    makepkg --noconfirm -si
     cd $scriptdir
     rm -r -f /tmp/git-trizen
 fi
