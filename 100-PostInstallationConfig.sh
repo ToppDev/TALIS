@@ -184,8 +184,7 @@ clock-format =  %a %d.%b  %R
 " > /etc/lightdm/lightdm-gtk-greeter.conf
 
 # Enable service
-sudo ln -s /etc/runit/sv/lightdm /run/runit/service
-sudo sv stop lightdm
+sudo systemctl enable lightdm.service
 
 # ########################################################################################################## #
 #                                                     Zsh                                                    #
