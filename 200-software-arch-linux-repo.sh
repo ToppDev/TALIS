@@ -79,7 +79,7 @@ pacinstall cppcheck
 pacinstall code
 mkdir -p ~/.config/Code\ -\ OSS/User
 vscode-extensions() {
-    vsextensions=$(cat "${0%/*}/.vscode-extensions")
+    vsextensions=$(cat "${0%/*}/vscode-extensions")
     while IFS= read -r line; do
         code --install-extension $line
     done <<< "$vsextensions"
@@ -407,8 +407,6 @@ pacinstall htop
 
 # Improved screenlocker based upon XCB and PAM
 pacinstall i3lock
-mkdir -p ~/Pictures
-cp $scriptdir/i3lock/$(hostname)/i3lock.png ~/Pictures/
 
 # A collection of common network programs
 pacinstall inetutils
