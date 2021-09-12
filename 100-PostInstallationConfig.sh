@@ -47,7 +47,7 @@ done
 [ -z "$dotfilesrepo" ] && echo -e "Dotfiles repository is required. Please specify -r\\n" && usage
 [ -z "$repobranch" ] && repobranch="main"
 
-git ls-remote "$dotfilesrepo" -b $repobranch | grep -q main || error "The remote repository $dotfilesrepo on branch $repobranch can't be accessed."
+git ls-remote "$dotfilesrepo" -b $repobranch | grep -q $repobranch || error "The remote repository \"$dotfilesrepo\" on branch \"$repobranch\" can't be accessed."
 
 # ########################################################################################################## #
 #                                              Check Arch distro                                             #
