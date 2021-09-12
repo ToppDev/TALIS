@@ -107,6 +107,9 @@ unset password
 
 info "Then we create a new user"
 readUsername || error "Could not read the username"
+
+usercheck $name
+
 readPassword $name || error "Could not read the password"
 
 createUser "$name" || error "Error while creating the user"
@@ -166,7 +169,7 @@ ln -s /etc/runit/sv/socklog /etc/runit/runsvdir/default >/dev/null 2>&1
 #                                                TALIS scripts                                               #
 # ########################################################################################################## #
 
-[ ! -f $repodir/TALIS ] && git clone https://github.com/ToppDev/TALIS.git $repodir/TALIS
+[ ! -d $repodir/TALIS ] && git clone https://github.com/ToppDev/TALIS.git $repodir/TALIS
 
 # ########################################################################################################## #
 #                                              Reboot the system                                             #
