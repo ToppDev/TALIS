@@ -15,7 +15,7 @@ sudoperms() {
     else
         sudo sed -i "/#TALIS/d" /etc/sudoers
         for perm in "$@"; do
-            sudo bash -c 'echo "$perm #TALIS" >> /etc/sudoers'
+            sudo sh -c "echo '$perm #TALIS' >> /etc/sudoers"
         done
     fi
 }

@@ -257,7 +257,7 @@ pacinstall nano
 
 # System beep
 sudo rmmod pcspkr >/dev/null 2>&1
-sudo bash -c 'echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf'
+sudo sh -c "echo 'blacklist pcspkr' > /etc/modprobe.d/nobeep.conf"
 
 # ########################################################################################################## #
 #                                                   Cleanup                                                  #

@@ -56,7 +56,7 @@ pacinstall playerctl
 
 # Fix fluidsynth/pulseaudio issue.
 sudo grep -q "OTHER_OPTS='-a pulseaudio -m alsa_seq -r 48000'" /etc/conf.d/fluidsynth ||
-    sudo bash -c 'echo "OTHER_OPTS=\"-a pulseaudio -m alsa_seq -r 48000\"" >> /etc/conf.d/fluidsynth'
+    sudo sh -c 'echo "OTHER_OPTS=\"-a pulseaudio -m alsa_seq -r 48000\"" >> /etc/conf.d/fluidsynth'
 # Start/restart PulseAudio.
 pkill -15 -x 'pulseaudio'; pulseaudio --start
 

@@ -60,7 +60,7 @@ sudo sed -i 's/Exec=/Exec=export _JAVA_AWT_WM_NONREPARENTING=1 \&\& /' /usr/shar
 
 # The popular and trusted web browser by Google (Stable Channel)
 aurinstall google-chrome
-sudo bash -c 'echo "[Desktop Entry]
+sudo sh -c 'echo "[Desktop Entry]
 Version=1.0
 Name=Google Chrome Incognito
 
@@ -79,7 +79,7 @@ MimeType=text/html;text/xml;application/xhtml_xml;image/webp;x-scheme-handler/ht
 Actions=new-window;new-private-window;" > /usr/share/applications/google-chrome-incognito.desktop'
 
 aurinstall brave-bin
-sudo bash -c 'echo "[Desktop Entry]
+sudo sh -c 'echo "[Desktop Entry]
 Version=1.0
 Name=Brave Incognito
 
@@ -136,7 +136,7 @@ aurinstall sardi-icons
 # Breeze cursor theme (KDE Plasma 5). This package is for usage in non-KDE Plasma desktops.
 aurinstall xcursor-breeze
 sudo mkdir -p /usr/share/icons/default
-sudo bash -c 'echo -e "[Icon Theme]\nInherits=Breeze_Snow" > /usr/share/icons/default/index.theme'
+sudo sh -c 'echo -e "[Icon Theme]\nInherits=Breeze_Snow" > /usr/share/icons/default/index.theme'
 
 # these come always last
 
