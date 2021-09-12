@@ -15,6 +15,7 @@ scriptdir="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 source "$scriptdir/helper/color.sh"
 source "$scriptdir/helper/log.sh"
 source "$scriptdir/helper/user.sh"
+source "$scriptdir/helper/sudo.sh"
 source "$scriptdir/helper/checkArchRootInternet.sh"
 
 # ########################################################################################################## #
@@ -106,7 +107,7 @@ unset password
 
 info "Then we create a new user"
 readUsername || error "Could not read the username"
-readPassword || error "Could not read the password"
+readPassword $name || error "Could not read the password"
 
 createUser "$name" || error "Error while creating the user"
 setPassword "$name" "$password" || error "Error while setting the user password"
@@ -122,7 +123,7 @@ chown -R "$name":wheel "$(dirname "$repodir")"
 
 # Allow user to run sudo without password. Since AUR programs must be installed
 # in a fakeroot environment, this is required for all builds with AUR.
-perms "%wheel ALL=(ALL) NOPASSWD: ALL"
+sudoperms "%wheel ALL=(ALL) NOPASSWD: ALL"
 
 # ########################################################################################################## #
 #                                            Network configuration                                           #
