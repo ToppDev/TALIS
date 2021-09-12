@@ -65,6 +65,10 @@ box "Repositories & Keyring"
 sudo grep -q "^Color" /etc/pacman.conf || sudo sed -i "s/^#Color$/Color/" /etc/pacman.conf
 sudo grep -q "ILoveCandy" /etc/pacman.conf || sudo sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
 
+# Reinstall Keyrings
+info "Refreshing Arch Keyring..."
+sudo pacman --noconfirm -S artix-archlinux-support gnupg artix-keyring archlinux-keyring
+
 # Enable 32-bit support
 sudo sed -i '/#\[lib32\]/,+1{/#\[lib32\]/ n; s/^#//}' /etc/pacman.conf # Remove comment in next line after '#[lib32]'
 sudo sed -i '/#\[lib32\]/s/^.//' /etc/pacman.conf                      # Remove comment at start of line '#[lib32]'
@@ -88,9 +92,6 @@ fi
 # Copy pacman hooks
 sudo cp $scriptdir/libalpm-hooks/* /usr/share/libalpm/hooks/
 
-# Reinstall Keyrings
-info "Refreshing Arch Keyring..."
-sudo pacman --noconfirm -S artix-archlinux-support gnupg artix-keyring archlinux-keyring
 # Reset the Keychain
 sudo rm -r /etc/pacman.d/gnupg
 sudo pacman-key --init
