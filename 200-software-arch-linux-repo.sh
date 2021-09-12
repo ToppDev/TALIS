@@ -78,13 +78,13 @@ pacinstall cppcheck
 # The Open Source build of Visual Studio Code (vscode) editor
 pacinstall code
 mkdir -p ~/.config/Code\ -\ OSS/User
-vscode-extensions() {
+vscodeextensions() {
     vsextensions=$(cat "${0%/*}/vscode-extensions")
     while IFS= read -r line; do
         code --install-extension $line
     done <<< "$vsextensions"
 }
-vscode-extensions
+vscodeextensions
 # Live Share dependencies
 pacinstall gcr liburcu openssl-1.0 krb5 zlib icu gnome-keyring libsecret desktop-file-utils xorg-xprop
 # sudo nano /usr/lib/code/product.json
