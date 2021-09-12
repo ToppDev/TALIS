@@ -179,6 +179,8 @@ systemctl enable NetworkManager
 #                                                TALIS scripts                                               #
 # ########################################################################################################## #
 
+box "Storing TALIS repo in user folder"
+
 [ ! -d $repodir/TALIS ] && git clone https://github.com/ToppDev/TALIS.git $repodir/TALIS
 
 # ########################################################################################################## #

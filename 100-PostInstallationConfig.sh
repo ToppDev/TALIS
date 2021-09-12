@@ -149,7 +149,16 @@ EndSection' > /etc/X11/xorg.conf.d/40-libinput.conf
 [ -f "/usr/bin/startx" ] && sed -i 's/defaultserverargs=""/defaultserverargs="-nolisten tcp"/' /usr/bin/startx
 
 # ########################################################################################################## #
-#                                                   LightDM                                                  #
+#                                               Windows Manager                                              #
+# ########################################################################################################## #
+
+# TODO: Install dwm here
+
+# Fallback display manager
+pacinstall xfce4 xfce4-goodies
+
+# ########################################################################################################## #
+#                                               Display Manager                                              #
 # ########################################################################################################## #
 
 # A lightweight display manager
@@ -233,7 +242,7 @@ cp -rfT "$dir" "/home/$(whoami)"
 rm -f "/home/$(whoami)/README.md" #"/home/$(whoami)/LICENSE" "/home/$(whoami)/FUNDING.yml"
 
 # make git ignore deleted LICENSE & README.md files
-git update-index --assume-unchanged "/home/$(whoami)/README.md" #"/home/$(whoami)/LICENSE" "/home/$(whoami)/FUNDING.yml"
+git --git-dir=/home/$(whoami) --work-tree=/home/$(whoami) update-index --assume-unchanged "/home/$(whoami)/README.md" #"/home/$(whoami)/LICENSE" "/home/$(whoami)/FUNDING.yml"
 
 # ########################################################################################################## #
 #                                            Misc program configs                                            #
