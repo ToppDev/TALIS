@@ -1,4 +1,4 @@
-# ToppDev's Artix Linux Installation Scripts (TALIS)
+# ToppDev's Arch Linux Installation Scripts (TALIS)
 
 ## Installation
 
