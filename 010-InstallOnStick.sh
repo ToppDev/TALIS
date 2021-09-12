@@ -122,7 +122,7 @@ box "Add users"
 
 # Read and set new password for root
 info "First we change the root password"
-readPassword root || error "Error reading the root password"
+readPassword || error "Error reading the root password"
 setPassword "root" "$password" || error "Error setting root password"
 unset password
 
@@ -131,7 +131,7 @@ readUsername || error "Could not read the username"
 
 usercheck $name
 
-readPassword $name || error "Could not read the password"
+readPassword || error "Could not read the password"
 
 createUser "$name" || error "Error while creating the user"
 setPassword "$name" "$password" || error "Error while setting the user password"

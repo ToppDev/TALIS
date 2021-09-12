@@ -19,22 +19,18 @@ readUsername() {
 # Prompts user for a password
 # @return $password
 readPassword() {
-    local username="$1" # Username to request password for
-
-    stty -echo
-    printf "Please enter a password for user '$username': "
-    read password
-    printf "\nRetype password: "
-    read password2
+    echo "Please enter a password: "
+    read -s password
+    echo -e "\nRetype password: "
+    read -s password2
     while ! [ "$password" = "$password2" ]; do
         unset password2
-        printf "\nPasswords do not match. Please enter a password for user '$1': "
-        read password
-        printf "\nRetype password: "
-        read password2
+        echo -e "\nPasswords do not match. Please enter a password: "
+        read -s password
+        echo -e "\nRetype password: "
+        read -s password2
     done
-    printf "\n"
-    stty echo
+    echo -e "\n"
     unset password2
 }
 
