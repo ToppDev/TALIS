@@ -14,6 +14,7 @@ exit 1
 
 source "$scriptdir/helper/color.sh"
 source "$scriptdir/helper/log.sh"
+source "$scriptdir/helper/install.sh"
 source "$scriptdir/helper/checkArchRootInternet.sh"
 
 # ########################################################################################################## #
@@ -27,34 +28,34 @@ check_arch_internet
 # ########################################################################################################## #
 
 # A featureful, general-purpose sound server
-sudo pacman -S pulseaudio --noconfirm --needed
+pacinstall pulseaudio
 
 # ALSA Configuration for PulseAudio
-sudo pacman -S pulseaudio-alsa --noconfirm --needed
+pacinstall pulseaudio-alsa
 
 # PulseAudio Volume Control
-sudo pacman -S pavucontrol --noconfirm --needed
+pacinstall pavucontrol
 
 # Advanced Linux Sound Architecture - Utilities
 # Additional ALSA plugins
 # An alternative implementation of Linux sound support
 # Firmware binaries for loader programs in alsa-tools and hotplug firmware loader
-sudo pacman -S alsa-utils alsa-plugins alsa-lib alsa-firmware --noconfirm --needed
+pacinstall alsa-utils alsa-plugins alsa-lib alsa-firmware
 
 # Multimedia graph framework - core
-sudo pacman -S gstreamer --noconfirm --needed
+pacinstall gstreamer
 
 # Multimedia graph framework - good plugins
 # Multimedia graph framework - bad plugins
 # Multimedia graph framework - base plugins
 # Multimedia graph framework - ugly plugins
-sudo pacman -S gst-plugins-good gst-plugins-bad gst-plugins-base gst-plugins-ugly --noconfirm --needed
+pacinstall gst-plugins-good gst-plugins-bad gst-plugins-base gst-plugins-ugly
 
 # Volume control for the system tray
-sudo pacman -S volumeicon --noconfirm --needed
+pacinstall volumeicon
 
 # mpris media player controller and lib for spotify, vlc, audacious, bmp, xmms2, and others.
-sudo pacman -S playerctl --noconfirm --needed
+pacinstall playerctl
 
 # Fix fluidsynth/pulseaudio issue.
 sudo grep -q "OTHER_OPTS='-a pulseaudio -m alsa_seq -r 48000'" /etc/conf.d/fluidsynth ||

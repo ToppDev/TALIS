@@ -114,7 +114,7 @@ sudo sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
 sudo sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T '"$(nproc)"' -z -)/g' /etc/makepkg.conf
 
 info "Synchronizing time..."
-sudo ntpdate 0.europe.pool.ntp.org >/dev/null 2>&1
+sudo ntpdate 0.europe.pool.ntp.org
 
 # ########################################################################################################## #
 #                                                 Aur Helper                                                 #
@@ -256,11 +256,11 @@ pacinstall nano
 [ -f "/etc/nanorc" ] && sudo sed -i -e '/# include "\/usr\/share\/nano\/\*\.nanorc/s/^# //' /etc/nanorc
 
 # System beep
-sudo rmmod pcspkr
+sudo rmmod pcspkr >/dev/null 2>&1
 sudo bash -c 'echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf'
 
 # dbus UUID must be generated for Artix runit.
-sudo dbus-uuidgen > /var/lib/dbus/machine-id
+# sudo dbus-uuidgen > /var/lib/dbus/machine-id
 
 # Use system notifications for Brave on Artix
 sudo bash -c 'echo "export \$(dbus-launch)" > /etc/profile.d/dbus.sh'
