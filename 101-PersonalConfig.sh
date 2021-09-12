@@ -56,7 +56,7 @@ box "Storing TALIS private script in user folder"
 
 [ ! -d $repodir/TALIS-private ] && git clone $repo $repodir/TALIS-private -b $repobranch
 
-git --git-dir= "$repodir/TALIS-private/.git" --work-tree "$repodir/TALIS-private" pull
+git --git-dir "$repodir/TALIS-private/.git" --work-tree "$repodir/TALIS-private" pull
 
 box "Executing TALIS private script"
 
