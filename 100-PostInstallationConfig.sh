@@ -202,7 +202,7 @@ box "Zsh"
 
 # Install Oh My Zsh
 if [ ! -d "/home/$(whoami)/.oh-my-zsh" ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    CHSH="no" curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh
 fi
 
 # Make zsh the default shell for the user.
@@ -250,21 +250,21 @@ box "Misc program configs"
 
 # Coloring in nano
 pacinstall nano
-[ -f "/etc/nanorc" ] && sed -i -e '/# include "\/usr\/share\/nano\/\*\.nanorc/s/^# //' /etc/nanorc
+[ -f "/etc/nanorc" ] && sudo sed -i -e '/# include "\/usr\/share\/nano\/\*\.nanorc/s/^# //' /etc/nanorc
 
 # System beep
-rmmod pcspkr
-echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
+sudo rmmod pcspkr
+sudo bash -c 'echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf'
 
 # dbus UUID must be generated for Artix runit.
-dbus-uuidgen > /var/lib/dbus/machine-id
+sudo dbus-uuidgen > /var/lib/dbus/machine-id
 
 # Use system notifications for Brave on Artix
-echo "export \$(dbus-launch)" > /etc/profile.d/dbus.sh
+sudo bash -c 'echo "export \$(dbus-launch)" > /etc/profile.d/dbus.sh'
 
 # Fix fluidsynth/pulseaudio issue.
-grep -q "OTHER_OPTS='-a pulseaudio -m alsa_seq -r 48000'" /etc/conf.d/fluidsynth ||
-    echo "OTHER_OPTS='-a pulseaudio -m alsa_seq -r 48000'" >> /etc/conf.d/fluidsynth
+sudo grep -q "OTHER_OPTS='-a pulseaudio -m alsa_seq -r 48000'" /etc/conf.d/fluidsynth ||
+    sudo bash -c 'echo "OTHER_OPTS=\"-a pulseaudio -m alsa_seq -r 48000\"" >> /etc/conf.d/fluidsynth'
 # Start/restart PulseAudio.
 pkill -15 -x 'pulseaudio'; pulseaudio --start
 
