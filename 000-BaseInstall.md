@@ -100,14 +100,13 @@ swapon -L SWAP                       # Swap
 On ArchLinux use `pacstrap`, `genfstab` and `arch-chroot`
 ```
 # Install base system
-basestrap /mnt base base-devel runit elogind-runit linux linux-firmware vim bash-completion
+basestrap /mnt base base-devel runit elogind-runit linux linux-firmware vim git bash-completion
 
 # Generate an fstab file
 fstabgen -U /mnt >> /mnt/etc/fstab
 
 # Change root into the new system
 artix-chroot /mnt
-bash
 
 # Select mirror (put Europe/Berlin entries to the top)
 vim /etc/pacman.d/mirrorlist

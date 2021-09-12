@@ -99,10 +99,12 @@ grub-mkconfig -o /boot/grub/grub.cfg
 box "Add users"
 
 # Read and set new password for root
+info "First we change the root password"
 readPassword root || error "Error reading the root password"
 setPassword "root" "$password" || error "Error setting root password"
 unset password
 
+info "Then we create a new user"
 readUsername || error "Could not read the username"
 readPassword || error "Could not read the password"
 

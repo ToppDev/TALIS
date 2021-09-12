@@ -249,6 +249,7 @@ git update-index --assume-unchanged "/home/$(whoami)/README.md" #"/home/$(whoami
 box "Misc program configs"
 
 # Coloring in nano
+pacinstall nano
 [ -f "/etc/nanorc" ] && sed -i -e '/# include "\/usr\/share\/nano\/\*\.nanorc/s/^# //' /etc/nanorc
 
 # System beep

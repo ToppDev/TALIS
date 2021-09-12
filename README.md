@@ -6,8 +6,8 @@
 - Still on the stick after changing into the newly installed file system, run the following
     ```
     cd /tmp
-    curl -LO https://raw.githubusercontent.com/ToppDev/TALIS/main/010-InstallOnStick.sh
-    chmod +x 010-InstallOnStick.sh
+    git clone https://github.com/ToppDev/TALIS.git
+    cd TALIS
     sh 010-InstallOnStick.sh
     ```
 - Reboot the system and login into the installed system as root user

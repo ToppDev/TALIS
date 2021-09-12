@@ -9,10 +9,10 @@
 # Prompts user for a username
 # @return $name
 readUsername() {
-    read -p "Please enter a username: " username
+    read -p "Please enter a username: " name
     while ! echo "$name" | grep -q "^[a-z_][a-z0-9_-]*$"; do
         echo "Username not valid"
-        read -p "Please enter a username: " username
+        read -p "Please enter a username: " name
     done
 }
 
