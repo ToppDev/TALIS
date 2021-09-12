@@ -202,7 +202,7 @@ box "Zsh"
 
 # Install Oh My Zsh
 if [ ! -d "/home/$(whoami)/.oh-my-zsh" ]; then
-    CHSH="no" curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh
+    CHSH="no" sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi
 
 # Make zsh the default shell for the user.
