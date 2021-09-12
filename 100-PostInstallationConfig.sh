@@ -201,8 +201,9 @@ clock-format =  %a %d.%b  %R
 box "Zsh"
 
 # Install Oh My Zsh
-if [ ! -d "/home/$(whoami)/.oh-my-zsh" ]; then
-    CHSH="no" sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+if [ ! -d "/home/$(whoami)/.local/share/oh-my-zsh" ]; then
+   export ZSH="/home/$(whoami)/.local/share/oh-my-zsh"
+   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
 fi
 
 # Make zsh the default shell for the user.
