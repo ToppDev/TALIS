@@ -206,6 +206,8 @@ box "Zsh"
 if [ ! -d "/home/$(whoami)/.local/share/oh-my-zsh" ]; then
    export ZSH="/home/$(whoami)/.local/share/oh-my-zsh"
    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
+   rm -f /home/$(whoami)/.zshrc.pre-oh-my-zsh* >/dev/null 2>&1
+   rm -f /home/$(whoami)/.shell.pre-oh-my-zsh* >/dev/null 2>&1
 fi
 
 # Make zsh the default shell for the user.

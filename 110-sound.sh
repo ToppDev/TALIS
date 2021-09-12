@@ -9,9 +9,6 @@
 
 scriptdir="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
-echo $scriptdir
-exit 1
-
 source "$scriptdir/helper/color.sh"
 source "$scriptdir/helper/log.sh"
 source "$scriptdir/helper/install.sh"
