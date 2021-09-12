@@ -19,6 +19,8 @@ sudoperms() {
         sudo sed -i "/#TALIS/d" /etc/sudoers
         for perm in "$@"; do
             sudo sh -c "echo '$perm #TALIS' >> /etc/sudoers"
+            # Temporary entry to not loose sudo right in the process (has to always stand at the end)
+            sudo sh -c "echo '%wheel ALL=(ALL) NOPASSWD: ALL #TMP' >> /etc/sudoers"
         done
 
         # Remove Temporary sudo rights
