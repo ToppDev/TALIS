@@ -168,6 +168,9 @@ EndSection' > /etc/X11/xorg.conf.d/40-libinput.conf
 #                                                   LightDM                                                  #
 # ########################################################################################################## #
 
+# A lightweight display manager
+# runit service scripts for lightdm
+pacinstall lightdm lightdm-runit
 # GTK+ greeter for LightDM
 pacinstall lightdm-gtk-greeter
 # Settings editor for the LightDM GTK+ Greeter
@@ -194,7 +197,9 @@ background = /usr/share/pixmaps/lightdm-background.jpg
 clock-format =  %a %d.%b  %R
 " > /etc/lightdm/lightdm-gtk-greeter.conf
 
-# TODO: enable lightdm
+# Enable service
+sudo ln -s /etc/runit/sv/lightdm /run/runit/service
+sudo sv stop lightdm
 
 # ########################################################################################################## #
 #                                                     Zsh                                                    #
@@ -277,4 +282,4 @@ unset password
 #                                                  Finished                                                  #
 # ########################################################################################################## #
 
-box "Installation finished, please reboot"
+box "Post Installation Configuration finished"
