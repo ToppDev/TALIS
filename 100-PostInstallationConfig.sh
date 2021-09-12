@@ -194,10 +194,17 @@ box "Zsh"
 
 # Install Oh My Zsh
 if [ ! -d "/home/$(whoami)/.local/share/oh-my-zsh" ]; then
-   export ZSH="/home/$(whoami)/.local/share/oh-my-zsh"
-   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
-   rm -f /home/$(whoami)/.zshrc.pre-oh-my-zsh* >/dev/null 2>&1
-   rm -f /home/$(whoami)/.shell.pre-oh-my-zsh* >/dev/null 2>&1
+    # TODO Add later again
+    #export ZSH="/home/$(whoami)/.local/share/oh-my-zsh"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
+    rm -f /home/$(whoami)/.zshrc.pre-oh-my-zsh* >/dev/null 2>&1
+    rm -f /home/$(whoami)/.shell.pre-oh-my-zsh* >/dev/null 2>&1
+
+    # TODO remove later
+    git clone https://github.com/romkatv/powerlevel10k.git /home/$(whoami)/.oh-my-zsh/custom/themes/powerlevel10k
+    git clone https://github.com/zsh-users/zsh-completions /home/$(whoami)/.oh-my-zsh/custom/plugins/zsh-completions
+    git clone https://github.com/supercrabtree/k /home/$(whoami)/.oh-my-zsh/custom/plugins/k
+    mv /home/$(whoami)/.zshrc.pre-oh-my-zsh /home/$(whoami)/.zshrc
 fi
 
 # Make zsh the default shell for the user.
@@ -212,6 +219,10 @@ pacinstall zsh-theme-powerlevel10k
 pacinstall zsh-completions
 # Optimized and extended zsh-syntax-highlighting
 aurinstall zsh-fast-syntax-highlighting
+
+# TODO remove later
+pacinstall zsh zsh-syntax-highlighting
+
 
 # TODO: Add zsh-fast-syntax-highlighting to the .zshrc
 # TODO: Add zsh-autosuggestions to the .zshrc
