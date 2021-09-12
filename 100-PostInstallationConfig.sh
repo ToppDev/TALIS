@@ -236,7 +236,7 @@ info "Downloading and installing config files..."
 dir=$(mktemp -d)
 [ ! -d "/home/$(whoami)" ] && mkdir -p "/home/$(whoami)"
 sudo chown "$(whoami)":wheel "$dir" "/home/$(whoami)"
-git clone --recursive -b "$branch" --depth 1 --recurse-submodules "$dotfilesrepo" "$dir" >/dev/null 2>&1
+git clone --recursive -b "$branch" --depth 1 --recurse-submodules "$dotfilesrepo" "$dir"
 cp -rfT "$dir" "/home/$(whoami)"
 rm -f "/home/$(whoami)/README.md" #"/home/$(whoami)/LICENSE" "/home/$(whoami)/FUNDING.yml"
 
@@ -262,12 +262,6 @@ sudo dbus-uuidgen > /var/lib/dbus/machine-id
 
 # Use system notifications for Brave on Artix
 sudo bash -c 'echo "export \$(dbus-launch)" > /etc/profile.d/dbus.sh'
-
-# Fix fluidsynth/pulseaudio issue.
-sudo grep -q "OTHER_OPTS='-a pulseaudio -m alsa_seq -r 48000'" /etc/conf.d/fluidsynth ||
-    sudo bash -c 'echo "OTHER_OPTS=\"-a pulseaudio -m alsa_seq -r 48000\"" >> /etc/conf.d/fluidsynth'
-# Start/restart PulseAudio.
-pkill -15 -x 'pulseaudio'; pulseaudio --start
 
 # ########################################################################################################## #
 #                                                   Cleanup                                                  #

@@ -56,6 +56,12 @@ sudo pacman -S volumeicon --noconfirm --needed
 # mpris media player controller and lib for spotify, vlc, audacious, bmp, xmms2, and others.
 sudo pacman -S playerctl --noconfirm --needed
 
+# Fix fluidsynth/pulseaudio issue.
+sudo grep -q "OTHER_OPTS='-a pulseaudio -m alsa_seq -r 48000'" /etc/conf.d/fluidsynth ||
+    sudo bash -c 'echo "OTHER_OPTS=\"-a pulseaudio -m alsa_seq -r 48000\"" >> /etc/conf.d/fluidsynth'
+# Start/restart PulseAudio.
+pkill -15 -x 'pulseaudio'; pulseaudio --start
+
 # ########################################################################################################## #
 
 box "Sound software installed"
