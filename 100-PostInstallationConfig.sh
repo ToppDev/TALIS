@@ -207,7 +207,7 @@ if [ ! -d "/home/$(whoami)/.local/share/oh-my-zsh" ]; then
 fi
 
 # Make zsh the default shell for the user.
-chsh -s /bin/zsh >/dev/null 2>&1
+sudo chsh -s /bin/zsh $(whoami)
 mkdir -p "/home/$(whoami)/.cache/zsh/"
 
 # Fish-like autosuggestions for zsh
