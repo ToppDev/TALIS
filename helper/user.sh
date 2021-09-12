@@ -63,7 +63,7 @@ setPassword() {
 usercheck() {
     local username="$1" # Username to check
 
-    if ! id -u "$username" >/dev/null 2>&1; then
+    if id -u "$username" >/dev/null 2>&1; then
         echo -e -n "${C_ORANGE}WARNING${C_NO}: "
         echo -e "The user \`$username\` already exists on this system."
         echo -e "\\nTALIS can install for a user already existing, but it will ${C_LIGHT_RED}overwrite${C_NO} any conflicting settings/dotfiles on the user account."
