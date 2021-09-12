@@ -225,6 +225,13 @@ aurinstall zsh-fast-syntax-highlighting
 
 box "Dotfiles"
 
+xdg-user-dirs-update --force
+rmdir "/home/$(whoami)/Desktop"
+rmdir "/home/$(whoami)/Music"
+rmdir "/home/$(whoami)/Public"
+rmdir "/home/$(whoami)/Templates"
+rmdir "/home/$(whoami)/Videos"
+
 # Install the dotfiles in the user's home directory
 info "Downloading and installing config files..."
 [ -z "$repobranch" ] && branch="master" || branch="$repobranch"
