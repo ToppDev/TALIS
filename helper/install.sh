@@ -6,12 +6,13 @@
 # ########################################################################################################## #
 
 aurinstall() {
-    info "Installing \`"$@"\` from the AUR"
+    info "Installing \`$*\` from the AUR"
     trizen -S --noconfirm --noedit --needed $@
 }
 
 pacinstall() {
-    info "Installing \`$@\`"
+
+    info "Installing \`$*\`"
     if [ $(whoami) = "root" ]; then
         pacman -S --noconfirm --needed $@
     else

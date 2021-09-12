@@ -130,17 +130,17 @@ pacinstall xorg-server xorg-apps xorg-xinit
 
 # Tap to click
 pacinstall xf86-input-synaptics
-[ ! -f /etc/X11/xorg.conf.d/40-libinput.conf ] && printf 'Section "InputClass"
-    Identifier "libinput touchpad catchall"
-    MatchIsTouchpad "on"
-    MatchDevicePath "/dev/input/event*"
-    Driver "libinput"
+[ ! -f /etc/X11/xorg.conf.d/40-libinput.conf ] && sudo sh -c "echo 'Section \"InputClass\"
+    Identifier \"libinput touchpad catchall\"
+    MatchIsTouchpad \"on\"
+    MatchDevicePath \"/dev/input/event*\"
+    Driver \"libinput\"
     # Enable left mouse button by tapping
-    Option "Tapping" "on"
-EndSection' > /etc/X11/xorg.conf.d/40-libinput.conf
+    Option \"Tapping\" \"on\"
+EndSection' > /etc/X11/xorg.conf.d/40-libinput.conf"
 
 # Close TCP Port 6000
-[ -f "/usr/bin/startx" ] && sed -i 's/defaultserverargs=""/defaultserverargs="-nolisten tcp"/' /usr/bin/startx
+[ -f "/usr/bin/startx" ] && sudo sed -i 's/defaultserverargs=""/defaultserverargs="-nolisten tcp"/' /usr/bin/startx
 
 # ########################################################################################################## #
 #                                               Windows Manager                                              #
@@ -162,26 +162,25 @@ pacinstall lightdm-gtk-greeter
 # Settings editor for the LightDM GTK+ Greeter
 pacinstall lightdm-gtk-greeter-settings
 # A nested X server that runs as an X application
-pacinstallxorg-server-xephyr
+pacinstall xorg-server-xephyr
 
 sudo mkdir -p /usr/share/xsessions
 sudo mkdir -p /usr/share/pixmaps/
 
 # LightDM config
-echo "[Desktop Entry]
+sudo sh -c "echo '[Desktop Entry]
 Encoding=UTF-8
 Name=Dynamic Window Manager
 Comment=Runs the window manager defined by xsession script
 Icon=dmw
 Type=XSession
-Exec=dwm" > /usr/share/xsessions/dwm.desktop
-echo "[greeter]
+Exec=dwm' > /usr/share/xsessions/dwm.desktop"
+sudo sh -c "echo '[greeter]
 theme-name = Arc-Dark
 icon-theme-name = Sardi-Arc
 font-name = Inconsolata Nerd Font Medium 13
 background = /usr/share/pixmaps/lightdm-background.jpg
-clock-format =  %a %d.%b  %R
-" > /etc/lightdm/lightdm-gtk-greeter.conf
+clock-format =  %a %d.%b  %R' > /etc/lightdm/lightdm-gtk-greeter.conf"
 
 # Enable service
 sudo systemctl enable lightdm.service
