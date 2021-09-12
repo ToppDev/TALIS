@@ -11,6 +11,7 @@ scriptdir="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 source "$scriptdir/helper/color.sh"
 source "$scriptdir/helper/log.sh"
+source "$scriptdir/helper/install.sh"
 source "$scriptdir/helper/checkArchRootInternet.sh"
 
 # ########################################################################################################## #
@@ -24,49 +25,49 @@ check_arch_internet
 # ########################################################################################################## #
 
 # Sans serif font family for user interface environments
-sudo pacman -S adobe-source-sans-pro-fonts --noconfirm --needed
+pacinstall adobe-source-sans-pro-fonts
 
 # fonts/icons for powerlines
-sudo pacman -S awesome-terminal-fonts --noconfirm --needed
+pacinstall awesome-terminal-fonts
 
 # Humanist sans serif font
-sudo pacman -S cantarell-fonts --noconfirm --needed
+pacinstall cantarell-fonts
 
 # Google Noto TTF fonts
-sudo pacman -S noto-fonts --noconfirm --needed
+pacinstall noto-fonts
 
 # Google Noto emoji fonts
-sudo pacman -S noto-fonts-emoji --noconfirm --needed
+pacinstall noto-fonts-emoji
 
 # Monospace bitmap font (for X11 and console)
-sudo pacman -S terminus-font --noconfirm --needed
+pacinstall terminus-font
 
 # Bitstream Vera fonts.
-sudo pacman -S ttf-bitstream-vera --noconfirm --needed
+pacinstall ttf-bitstream-vera
 
 # Font family based on the Bitstream Vera Fonts with a wider range of characters
-sudo pacman -S ttf-dejavu --noconfirm --needed
+pacinstall ttf-dejavu
 
 # General-purpose fonts released by Google as part of Android
-sudo pacman -S ttf-droid --noconfirm --needed
+pacinstall ttf-droid
 
 # Monospace font for pretty code listings and for the terminal
-sudo pacman -S ttf-inconsolata --noconfirm --needed
+pacinstall ttf-inconsolata
 
 # Red Hats Liberation fonts
-sudo pacman -S ttf-liberation --noconfirm --needed
+pacinstall ttf-liberation
 
 # Google's signature family of fonts
-sudo pacman -S ttf-roboto --noconfirm --needed
+pacinstall ttf-roboto
 
 # Ubuntu font family
-sudo pacman -S ttf-ubuntu-font-family --noconfirm --needed
+pacinstall ttf-ubuntu-font-family
 
 # A monospaced bitmap font for the console and X11
-sudo pacman -S tamsyn-font --noconfirm --needed
+pacinstall tamsyn-font
 
 # Serif (Libertine) and Sans Serif (Biolinum) OpenType fonts with large Unicode coverage
-sudo pacman -S ttf-linux-libertine --noconfirm --needed
+pacinstall ttf-linux-libertine
 
 # Download Nerd Fonts
 sudo mkdir -p /usr/share/fonts/nerd-fonts

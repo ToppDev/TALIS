@@ -3,9 +3,6 @@
 # by Thomas Topp <dev@topp.cc>
 # License: GNU GPLv3
 
-# This script automates the installation of artix linux
-# https://wiki.artixlinux.org/Main/Installation#Configure_the_base_system
-
 # ########################################################################################################## #
 #                                               Helper scripts                                               #
 # ########################################################################################################## #

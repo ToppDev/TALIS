@@ -11,6 +11,7 @@ scriptdir="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 source "$scriptdir/helper/color.sh"
 source "$scriptdir/helper/log.sh"
+source "$scriptdir/helper/install.sh"
 source "$scriptdir/helper/checkArchRootInternet.sh"
 
 # ########################################################################################################## #
@@ -23,25 +24,24 @@ check_arch_internet
 #                                                Installation                                                #
 # ########################################################################################################## #
 
-sudo pacman -S cups cups-pdf --noconfirm --needed
+pacinstall cups cups-pdf
 
 #first try if you can print without foomatic
-#sudo pacman -S foomatic-db-engine --noconfirm --needed
-#sudo pacman -S foomatic-db foomatic-db-ppds foomatic-db-nonfree-ppds foomatic-db-gutenprint-ppds --noconfirm --needed
+#pacinstall foomatic-db-engine
+#pacinstall foomatic-db foomatic-db-ppds foomatic-db-nonfree-ppds foomatic-db-gutenprint-ppds
 
-sudo pacman -S ghostscript gsfonts gutenprint --noconfirm --needed
-# sudo pacman -S gtk3-print-backends --noconfirm --needed
-sudo pacman -S libcups --noconfirm --needed
-sudo pacman -S hplip --noconfirm --needed
-# sudo pacman -S system-config-printer --noconfirm --needed
+pacinstall ghostscript gsfonts gutenprint
+# pacinstall gtk3-print-backends
+pacinstall libcups
+pacinstall hplip
+# pacinstall system-config-printer
 
-# TODO: Artix
 sudo systemctl enable cups.service
 
 # Scanner Access Now Easy
-sudo pacman -S --noconfirm --needed sane
+pacinstall sane
 # Simple scanning utility
-sudo pacman -S --noconfirm --needed simple-scan
+pacinstall simple-scan
 
 # ########################################################################################################## #
 

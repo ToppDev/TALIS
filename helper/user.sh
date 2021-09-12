@@ -1,5 +1,5 @@
 #!/bin/sh
-# ToppDev's Artix Linux Installation Scripts (TALIS)
+# ToppDev's Arch Linux Installation Scripts (TALIS)
 # by Thomas Topp <dev@topp.cc>
 # License: GNU GPLv3
 
@@ -62,7 +62,6 @@ setPassword() {
 }
 
 # Check if the specified user exists
-# © LARBS by Luke Smith <luke@lukesmith.xyz>
 usercheck() {
     local username="$1" # Username to check
 

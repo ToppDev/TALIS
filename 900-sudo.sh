@@ -1,13 +1,7 @@
 #!/bin/sh
-# ToppDev's Artix Linux Installation Scripts (TALIS)
+# ToppDev's Arch Linux Installation Scripts (TALIS)
 # by Thomas Topp <dev@topp.cc>
 # License: GNU GPLv3
-
-# Some parts of the script use functions from
-# Luke's Auto Rice Boostrapping Script (LARBS) by Luke Smith <luke@lukesmith.xyz>
-# Please pay him a visit
-# - https://lukesmith.xyz/
-# - https://larbs.xyz/
 
 # ########################################################################################################## #
 #                                               Helper scripts                                               #

@@ -11,6 +11,7 @@ scriptdir="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 source "$scriptdir/helper/color.sh"
 source "$scriptdir/helper/log.sh"
+source "$scriptdir/helper/install.sh"
 source "$scriptdir/helper/checkArchRootInternet.sh"
 
 # ########################################################################################################## #
@@ -23,16 +24,15 @@ check_arch_internet
 #                                                Installation                                                #
 # ########################################################################################################## #
 
-sudo pacman -S avahi --noconfirm --needed
-# TODO: Artix
+pacinstall avahi
 sudo systemctl enable avahi-daemon.service
 sudo systemctl start avahi-daemon.service
 
 #shares on a mac
-sudo pacman -S nss-mdns --noconfirm --needed
+pacinstall nss-mdns
 
 #shares on a linux
-sudo pacman -S gvfs-smb --noconfirm --needed
+pacinstall gvfs-smb
 
 # ########################################################################################################## #
 

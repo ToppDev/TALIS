@@ -11,6 +11,7 @@ scriptdir="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 source "$scriptdir/helper/color.sh"
 source "$scriptdir/helper/log.sh"
+source "$scriptdir/helper/install.sh"
 source "$scriptdir/helper/checkArchRootInternet.sh"
 
 # ########################################################################################################## #
@@ -39,9 +40,9 @@ if ! pacman -Qs steam > /dev/null; then
     inst='y'
     read -p "Install steam? [Y/n] " inst
     if [ ! $inst ] || [ $inst = "y" ] || [ $inst = "Y" ] || [ $inst = "yes" ] || [ $inst = "Yes" ]; then
-        trizen -S --noconfirm --needed --noedit steam-fonts
+        aurinstall steam-fonts
         sudo fc-cache -fv
-        sudo pacman -S --noconfirm --needed steam steam-native-runtime
+        pacinstall steam steam-native-runtime
     fi
 fi
 
@@ -50,14 +51,15 @@ if ! pacman -Qs lutris > /dev/null; then
     inst='y'
     read -p "Install lutris? [Y/n] " inst
     if [ ! $inst ] || [ $inst = "y" ] || [ $inst = "Y" ] || [ $inst = "yes" ] || [ $inst = "Yes" ]; then
-        sudo pacman -S --noconfirm --needed lutris
-        read -p "Select video driver: [1=Nvidia,2=amd,3=intel] " video
-        if [ ! $video ] || [ $video = "1" ]; then
-            sudo pacman -S --noconfirm --needed nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader
-        elif [ $video = "2" ]; then
-            sudo pacman -S --noconfirm --needed lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader
-        elif [ $video = "3" ]; then
-            sudo pacman -S --noconfirm --needed lib32-mesa vulkan-intel lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader
+        pacinstall lutris
+        if lspci -v | grep -A1 -e VGA -e 3D | grep -q "Intel"; then
+            pacinstall lib32-mesa vulkan-intel lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader
+        elif lspci -v | grep -A1 -e VGA -e 3D | grep -q "NVIDIA"; then
+            pacinstall nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader
+        elif lspci -v | grep -A1 -e VGA -e 3D | grep -q "AMD"; then
+            pacinstall lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader
+        elif lspci -v | grep -A1 -e VGA -e 3D | grep -q "ATI"; then
+            pacinstall lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader
         fi
     fi
 fi
@@ -67,7 +69,7 @@ if pacman -Qs lutris > /dev/null; then
         inst='y'
         read -p "Install Battle.net? [Y/n] " inst
         if [ ! $inst ] || [ $inst = "y" ] || [ $inst = "Y" ] || [ $inst = "yes" ] || [ $inst = "Yes" ]; then
-            sudo pacman -S --noconfirm --needed wine lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse
+            pacinstall wine lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse
             xdg-open lutris:blizzard-battlenet-standard
             echo "[Desktop Entry]
 Type=Application
@@ -84,7 +86,7 @@ if [ ! -d ~/Games/LeagueOfLegends ]; then
     inst='y'
     read -p "Install League of Legends? [Y/n] " inst
     if [ ! $inst ] || [ $inst = "y" ] || [ $inst = "Y" ] || [ $inst = "yes" ] || [ $inst = "Yes" ]; then
-        trizen -S --noconfirm --needed --noedit wine-lol
+        aurinstall wine-lol
         wget -P /tmp -nc https://lol.secure.dyn.riotcdn.net/channels/public/x/installer/current/live.euw.exe
         WINEARCH=win32 WINEPREFIX=~/Games/LeagueOfLegends/ /opt/wine-lol/bin/wine /tmp/live.euw.exe
         if ! sudo grep -q "abi.vsyscall32=0" /etc/sudoers; then

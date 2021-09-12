@@ -11,6 +11,7 @@ scriptdir="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 source "$scriptdir/helper/color.sh"
 source "$scriptdir/helper/log.sh"
+source "$scriptdir/helper/install.sh"
 source "$scriptdir/helper/checkArchRootInternet.sh"
 
 # ########################################################################################################## #
@@ -24,19 +25,19 @@ check_arch_internet
 # ########################################################################################################## #
 
 # Bluetooth support for PulseAudio
-sudo pacman -S --noconfirm --needed pulseaudio-bluetooth
+pacinstall pulseaudio-bluetooth
 
 # Daemons for the bluetooth protocol stack
-sudo pacman -S --noconfirm --needed bluez
+pacinstall bluez
 
 # Deprecated libraries for the bluetooth protocol stack
-sudo pacman -S --noconfirm --needed bluez-libs
+pacinstall bluez-libs
 
 # Development and debugging utilities for the bluetooth protocol stack
-sudo pacman -S --noconfirm --needed bluez-utils
+pacinstall bluez-utils
 
 # Bluetooth configuration tool
-sudo pacman -S --noconfirm --needed blueberry
+pacinstall blueberry
 
 sudo systemctl enable bluetooth.service
 sudo systemctl start bluetooth.service
