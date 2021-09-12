@@ -243,7 +243,7 @@ cp -rfT "$dir" "/home/$(whoami)"
 rm -f "/home/$(whoami)/README.md" #"/home/$(whoami)/LICENSE" "/home/$(whoami)/FUNDING.yml"
 
 # make git ignore deleted LICENSE & README.md files
-git --git-dir=/home/$(whoami) --work-tree=/home/$(whoami) update-index --assume-unchanged "/home/$(whoami)/README.md" #"/home/$(whoami)/LICENSE" "/home/$(whoami)/FUNDING.yml"
+git --git-dir "/home/$(whoami)" --work-tree "/home/$(whoami)" update-index --assume-unchanged "/home/$(whoami)/README.md" #"/home/$(whoami)/LICENSE" "/home/$(whoami)/FUNDING.yml"
 
 # ########################################################################################################## #
 #                                            Misc program configs                                            #
