@@ -10,4 +10,4 @@
     cd TALIS
     sh 010-InstallOnStick.sh
     ```
-- Reboot the system and login into the installed system as root user
+- Reboot the system and login into the installed system as the user you created

@@ -43,8 +43,11 @@ createUser() {
     local username="$1"
 
     echo "Adding user \"$username\"..."
-    useradd -m -g wheel -s /bin/zsh "$username" >/dev/null 2>&1 ||
-        usermod -a -G wheel "$username" && mkdir -p /home/"$username" && chown "$username":wheel /home/"$username"
+    useradd -m -g wheel -s /bin/bash "$username" >/dev/null 2>&1 \
+        || usermod -a -G wheel "$username" \
+            && mkdir -p /home/"$username" \
+            && chown "$username":wheel /home/"$username" \
+            && chsh -s /bin/bash "$username"
     # Additional groups
     gpasswd -a $username users # Users group
     gpasswd -a $username uucp # Accessing virtual serial ports (e.g. ttyUSB)
