@@ -204,7 +204,6 @@ if [ ! -d "/home/$(whoami)/.local/share/oh-my-zsh" ]; then
     git clone https://github.com/romkatv/powerlevel10k.git /home/$(whoami)/.oh-my-zsh/custom/themes/powerlevel10k
     git clone https://github.com/zsh-users/zsh-completions /home/$(whoami)/.oh-my-zsh/custom/plugins/zsh-completions
     git clone https://github.com/supercrabtree/k /home/$(whoami)/.oh-my-zsh/custom/plugins/k
-    mv /home/$(whoami)/.zshrc.pre-oh-my-zsh /home/$(whoami)/.zshrc
 fi
 
 # Make zsh the default shell for the user.
