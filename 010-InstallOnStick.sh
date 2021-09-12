@@ -1,5 +1,5 @@
 #!/bin/sh
-# ToppDev's Artix/Arch Linux Installation Scripts (TALIS)
+# ToppDev's Arch Linux Installation Scripts (TALIS)
 # by Thomas Topp <dev@topp.cc>
 # License: GNU GPLv3
 
@@ -16,6 +16,7 @@ source "$scriptdir/helper/color.sh"
 source "$scriptdir/helper/log.sh"
 source "$scriptdir/helper/user.sh"
 source "$scriptdir/helper/sudo.sh"
+source "$scriptdir/helper/install.sh"
 source "$scriptdir/helper/checkArchRootInternet.sh"
 
 # ########################################################################################################## #
@@ -65,33 +66,56 @@ done
 box "Boot loader"
 
 # Install dependencies
-pacman -S --noconfirm --needed grub efibootmgr # Dual boot would need: os-prober
-
-# Install the GRUB
-if [ "$(ls -A /sys/firmware/efi/efivars)" ]; then # UEFI systems
-    grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
-else # BIOS systems
-    grub-install --recheck /dev/sda
-fi
+pacinstall efibootmgr dosfstools gptfdisk linux-lts
 
 # Install ucode (Processor manufacturer stability and security updates to the processor microcode)
 if grep -q "AMD" /proc/cpuinfo; then
-    pacman -S --noconfirm --needed amd-ucode
+    pacinstall amd-ucode
 elif grep -q "Intel" /proc/cpuinfo; then
-    pacman -S --noconfirm --needed intel-ucode
+    pacinstall intel-ucode
 fi
 
-# Install Linux-LTS
-pacman -S --noconfirm --needed linux-lts
+# Initramfs erzeugen
+mkinitcpio -p linux
 
-# Set the default options
-sed -i -e '/#GRUB_DISABLE_SUBMENU=/s/^.//' /etc/default/grub
-sed -i "/GRUB_DEFAULT=/c\GRUB_DEFAULT='Artix Linux, with Linux linux'" /etc/default/grub
-# With submenu entries this would have to be:
-# sed -i "/GRUB_DEFAULT=/c\GRUB_DEFAULT='Advanced options for Artix Linux>Artix Linux, with Linux linux'" /etc/default/grub
+# Install EFI boot entry
+bootctl install
 
-# Generate the GRUB conig
-grub-mkconfig -o /boot/grub/grub.cfg
+# Config Arch Linux
+echo "title Arch Linux" > /boot/loader/entries/arch-uefi.conf
+echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch-uefi.conf
+if grep -q "AMD" /proc/cpuinfo; then
+    echo "initrd /amd-ucode.img" >> /boot/loader/entries/arch-uefi.conf
+elif grep -q "Intel" /proc/cpuinfo; then
+    echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch-uefi.conf
+fi
+echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch-uefi.conf
+echo "options root=LABEL=ROOT rw resume=LABEL=SWAP" >> /boot/loader/entries/arch-uefi.conf
+# Config Arch Linux (LTS)
+echo "title Arch Linux LTS" > /boot/loader/entries/arch-uefi-lts.conf
+echo "linux /vmlinuz-linux-lts" >> /boot/loader/entries/arch-uefi-lts.conf
+if grep -q "AMD" /proc/cpuinfo; then
+    echo "initrd /amd-ucode.img" >> /boot/loader/entries/arch-uefi-lts.conf
+elif grep -q "Intel" /proc/cpuinfo; then
+    echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch-uefi-lts.conf
+fi
+echo "initrd /initramfs-linux-lts.img" >> /boot/loader/entries/arch-uefi-lts.conf
+echo "options root=LABEL=ROOT rw resume=LABEL=SWAP" >> /boot/loader/entries/arch-uefi-lts.conf
+# Config Arch Linux (fallback)
+echo "title Arch Linux Fallback" > /boot/loader/entries/arch-uefi-fallback.conf
+echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch-uefi-fallback.conf
+if grep -q "AMD" /proc/cpuinfo; then
+    echo "initrd /amd-ucode.img" >> /boot/loader/entries/arch-uefi-fallback.conf
+elif grep -q "Intel" /proc/cpuinfo; then
+    echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch-uefi-fallback.conf
+fi
+echo "initrd /initramfs-linux-fallback.img" >> /boot/loader/entries/arch-uefi-fallback.conf
+echo "options root=LABEL=ROOT rw resume=LABEL=SWAP" >> /boot/loader/entries/arch-uefi-fallback.conf
+# Config Loader
+echo "default arch-uefi.conf" > /boot/loader/loader.conf
+echo "timeout 4" >> /boot/loader/loader.conf
+echo "editor no" >> /boot/loader/loader.conf
+echo "#console-mode keep" >> /boot/loader/loader.conf
 
 # ########################################################################################################## #
 #                                                 Add user(s)                                                #
@@ -148,22 +172,8 @@ echo "::1           localhost.localdomain localhost" >> /etc/hosts
 echo "127.0.1.1     $hostname.localdomain $hostname" >> /etc/hosts
 
 # NetworkManager
-pacman -S --noconfirm --needed networkmanager networkmanager-runit
-ln -s /etc/runit/sv/NetworkManager /etc/runit/runsvdir/default >/dev/null 2>&1
-
-# Log the output from wpa_supplicant to syslog instead of stdout
-sed -i 's/Exec=.*/Exec=\/usr\/bin\/wpa_supplicant -u -s/g' /usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.service
-
-# ########################################################################################################## #
-#                                             Syslog replacement                                             #
-# ########################################################################################################## #
-
-box "Syslog replacement"
-
-# Runit has a different type of logging, which relies on creating log scripts
-# However there are a lot of programs not respecting this, so you need a syslog replacement
-pacman -S --noconfirm --needed socklog
-ln -s /etc/runit/sv/socklog /etc/runit/runsvdir/default >/dev/null 2>&1
+pacman -S --noconfirm --needed networkmanager wget git inetutils
+systemctl enable NetworkManager
 
 # ########################################################################################################## #
 #                                                TALIS scripts                                               #
@@ -182,7 +192,7 @@ echo "#                                                  #"
 echo "# Reboot and enter into the new installation       #"
 echo "# as the user you just created.                    #"
 echo "#                                                  #"
-echo -e "# Execute the script ${C_ORANGE}020-PostInstallationConfig.sh${C_LIGHT_GREEN} #"
+echo -e "# Execute the script ${C_ORANGE}100-PostInstallationConfig.sh${C_LIGHT_GREEN} #"
 echo "# after login. It can be found under               #"
 echo "# ~/.local/src/TALIS                               #"
 echo "#                                                  #"

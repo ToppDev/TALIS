@@ -69,27 +69,11 @@ sudo grep -q "ILoveCandy" /etc/pacman.conf || sudo sed -i "/#VerbosePkgLists/a I
 
 # Reinstall Keyrings
 info "Refreshing Arch Keyring..."
-sudo pacman --noconfirm -S artix-archlinux-support gnupg artix-keyring archlinux-keyring
+sudo pacman --noconfirm -S gnupg archlinux-keyring
 
 # Enable 32-bit support
-sudo sed -i '/#\[lib32\]/,+1{/#\[lib32\]/ n; s/^#//}' /etc/pacman.conf # Remove comment in next line after '#[lib32]'
-sudo sed -i '/#\[lib32\]/s/^.//' /etc/pacman.conf                      # Remove comment at start of line '#[lib32]'
-# Add Arch repositories
-if ! grep -q -o "\[[^]]*extra\]" /etc/pacman.conf; then
-    sudo bash -c 'echo "" >> /etc/pacman.conf'
-    sudo bash -c 'echo "[extra]" >> /etc/pacman.conf'
-    sudo bash -c 'echo "Include = /etc/pacman.d/mirrorlist-arch" >> /etc/pacman.conf'
-fi
-if ! grep -q -o "\[[^]]*community\]" /etc/pacman.conf; then
-    sudo bash -c 'echo "" >> /etc/pacman.conf'
-    sudo bash -c 'echo "[community]" >> /etc/pacman.conf'
-    sudo bash -c 'echo "Include = /etc/pacman.d/mirrorlist-arch" >> /etc/pacman.conf'
-fi
-if ! grep -q -o "\[[^]]*multilib\]" /etc/pacman.conf; then
-    sudo bash -c 'echo "" >> /etc/pacman.conf'
-    sudo bash -c 'echo "[multilib]" >> /etc/pacman.conf'
-    sudo bash -c 'echo "Include = /etc/pacman.d/mirrorlist-arch" >> /etc/pacman.conf'
-fi
+sudo sed -i '/#\[multilib\]/,+1{/#\[multilib\]/ n; s/^#//}' /etc/pacman.conf # Remove comment in next line after '#[multilib]'
+sudo sed -i '/#\[multilib\]/s/^.//' /etc/pacman.conf                         # Remove comment at start of line '#[multilib]'
 
 # Copy pacman hooks
 sudo cp $scriptdir/libalpm-hooks/* /usr/share/libalpm/hooks/
@@ -97,7 +81,7 @@ sudo cp $scriptdir/libalpm-hooks/* /usr/share/libalpm/hooks/
 # Reset the Keychain
 sudo rm -r /etc/pacman.d/gnupg
 sudo pacman-key --init
-sudo pacman-key --populate archlinux artix
+sudo pacman-key --populate archlinux
 # Update package database
 sudo pacman -Sy
 
@@ -169,8 +153,7 @@ EndSection' > /etc/X11/xorg.conf.d/40-libinput.conf
 # ########################################################################################################## #
 
 # A lightweight display manager
-# runit service scripts for lightdm
-pacinstall lightdm lightdm-runit
+pacinstall lightdm
 # GTK+ greeter for LightDM
 pacinstall lightdm-gtk-greeter
 # Settings editor for the LightDM GTK+ Greeter
