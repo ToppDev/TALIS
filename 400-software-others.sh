@@ -27,7 +27,7 @@ check_arch_internet
 # Private Internet Access (VPN)
 if ! command -v piactl &> /dev/null; then
     inst='y'
-    read -p "Install steam? [Y/n] " inst
+    read -p "Install Private Internet Access VPN Client? [Y/n] " inst
     if [ ! $inst ] || [ $inst = "y" ] || [ $inst = "Y" ] || [ $inst = "yes" ] || [ $inst = "Yes" ]; then
         wget -P /tmp -nc https://installers.privateinternetaccess.com/download/pia-linux-3.0.1-06696.run
         chmod +x /tmp/pia-linux-*.run
