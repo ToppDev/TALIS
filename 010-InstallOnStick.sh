@@ -169,7 +169,7 @@ echo "::1           localhost.localdomain localhost" >> /etc/hosts
 echo "127.0.1.1     $hostname.localdomain $hostname" >> /etc/hosts
 
 # NetworkManager
-pacman -S --noconfirm --needed networkmanager wget git inetutils
+pacinstall networkmanager wget git inetutils
 systemctl enable NetworkManager
 
 # ########################################################################################################## #
@@ -179,6 +179,16 @@ systemctl enable NetworkManager
 box "Storing TALIS repo in user folder"
 
 [ ! -d $repodir/TALIS ] && sudo -u "$name" git clone https://github.com/ToppDev/TALIS.git $repodir/TALIS
+
+# ########################################################################################################## #
+#                                              Update mirrorlist                                             #
+# ########################################################################################################## #
+
+box "Updating mirrorlist (this can take a while)"
+
+pacinstall reflector
+
+reflector --verbose -l 200 --sort rate --save /etc/pacman.d/mirrorlist
 
 # ########################################################################################################## #
 #                                              Reboot the system                                             #

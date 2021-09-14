@@ -43,6 +43,7 @@ if ! pacman -Qs steam > /dev/null; then
         aurinstall steam-fonts
         sudo fc-cache -fv
         pacinstall steam steam-native-runtime
+        aurinstall protontricks
     fi
 fi
 
