@@ -289,6 +289,9 @@ pacinstall thunderbird
 # LibreOffice branch which contains new features and program enhancements
 pacinstall libreoffice-fresh
 
+# Spell checker and morphological analyzer library and program
+pacinstall hunspell hunspell-de hunspell-en_us
+
 # Nextcloud desktop client
 pacinstall nextcloud-client
 
