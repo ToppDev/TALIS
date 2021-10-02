@@ -27,8 +27,6 @@ check_arch_internet
 # Sans serif font family for user interface environments
 pacinstall adobe-source-sans-pro-fonts
 
-# fonts/icons for powerlines
-pacinstall awesome-terminal-fonts
 
 # Humanist sans serif font
 pacinstall cantarell-fonts
@@ -68,23 +66,6 @@ pacinstall tamsyn-font
 
 # Serif (Libertine) and Sans Serif (Biolinum) OpenType fonts with large Unicode coverage
 pacinstall ttf-linux-libertine
-
-# Download Nerd Fonts
-sudo mkdir -p /usr/share/fonts/nerd-fonts
-sudo wget -P /usr/share/fonts/nerd-fonts -nc https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Inconsolata/complete/Inconsolata%20Nerd%20Font%20Complete%20Mono.otf
-sudo wget -P /usr/share/fonts/nerd-fonts -nc https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Inconsolata/complete/Inconsolata%20Nerd%20Font%20Complete.otf
-sudo wget -P /usr/share/fonts/nerd-fonts -nc https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete%20Mono%20Windows%20Compatible.otf
-sudo wget -P /usr/share/fonts/nerd-fonts -nc https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete%20Mono.otf
-sudo wget -P /usr/share/fonts/nerd-fonts -nc https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete%20Windows%20Compatible.otf
-sudo wget -P /usr/share/fonts/nerd-fonts -nc https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
-# Download Patched Awesome Terminal Fonts
-sudo mkdir -p /usr/share/fonts/awesome-terminal-fonts-patched
-sudo wget -P /usr/share/fonts/awesome-terminal-fonts-patched -nc https://github.com/gabrielelana/awesome-terminal-fonts/raw/patching-strategy/patched/Droid%2BSans%2BMono%2BAwesome.ttf
-sudo wget -P /usr/share/fonts/awesome-terminal-fonts-patched -nc https://github.com/gabrielelana/awesome-terminal-fonts/raw/patching-strategy/patched/Inconsolata%2BAwesome.ttf
-sudo wget -P /usr/share/fonts/awesome-terminal-fonts-patched -nc https://github.com/gabrielelana/awesome-terminal-fonts/raw/patching-strategy/patched/SourceCodePro%2BPowerline%2BAwesome%2BRegular.ttf
-
-# Update font cache
-fc-cache -fv
 
 # ########################################################################################################## #
 

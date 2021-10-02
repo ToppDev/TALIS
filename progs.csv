@@ -12,6 +12,11 @@
 ,zsh-theme-powerlevel10k,is a theme for Zsh.
 ,zsh-completions,adds additional completion definitions for Zsh.
 A,zsh-fast-syntax-highlighting,provides syntax highlighting in the shell.
+/* ######################################################################################################## */
+/*                                                   Fonts                                                  */
+/* ######################################################################################################## */
+,awesome-terminal-fonts,are fonts/icons for powerlines
+A,nerd-fonts-complete,is a font collection with 3.600+ icons & 50+ patched fonts.
 ##############################################################################################################
 ,nano,is a Pico editor clone with enhancements
 A,brave-bin,"is an elegant browser with built-in adblocking, tor and other features."
