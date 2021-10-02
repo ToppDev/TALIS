@@ -1,11 +1,12 @@
 #!/bin/sh
-# ToppDev's Arch Linux Installation Scripts (TALIS)
+# ToppDev's Artix/Arch Linux Installation Scripts (TALIS)
 # by Thomas Topp <dev@topp.cc>
 # License: GNU GPLv3
 
 # ########################################################################################################## #
 
 # Set sudoers settings and clear old ones added by this script
+# Adapted from LARBS by Luke Smith (https://github.com/LukeSmithxyz/LARBS)
 sudoperms() {
     if [ $(whoami) = "root" ]; then
         sed -i "/#TALIS/d" /etc/sudoers

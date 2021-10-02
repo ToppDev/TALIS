@@ -1,5 +1,5 @@
 #!/bin/sh
-# ToppDev's Arch Linux Installation Scripts (TALIS)
+# ToppDev's Artix/Arch Linux Installation Scripts (TALIS)
 # by Thomas Topp <dev@topp.cc>
 # License: GNU GPLv3
 
@@ -63,56 +63,83 @@ done
 box "Boot loader"
 
 # Install dependencies
-pacinstall efibootmgr dosfstools gptfdisk linux-lts
+installpkg efibootmgr
+
+# Install Linux-LTS
+installpkg linux-lts
 
 # Install ucode (Processor manufacturer stability and security updates to the processor microcode)
 if grep -q "AMD" /proc/cpuinfo; then
-    pacinstall amd-ucode
+    installpkg amd-ucode
 elif grep -q "Intel" /proc/cpuinfo; then
-    pacinstall intel-ucode
+    installpkg intel-ucode
 fi
 
-# Initramfs erzeugen
-mkinitcpio -p linux
+if is_archlinux; then
+    installpkg dosfstools gptfdisk
 
-# Install EFI boot entry
-bootctl install
+    # Initramfs erzeugen
+    mkinitcpio -p linux
 
-# Config Arch Linux
-echo "title Arch Linux" > /boot/loader/entries/arch-uefi.conf
-echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch-uefi.conf
-if grep -q "AMD" /proc/cpuinfo; then
-    echo "initrd /amd-ucode.img" >> /boot/loader/entries/arch-uefi.conf
-elif grep -q "Intel" /proc/cpuinfo; then
-    echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch-uefi.conf
+    # Install EFI boot entry
+    bootctl install
+
+    # Config Arch Linux
+    echo "title Arch Linux" > /boot/loader/entries/arch-uefi.conf
+    echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch-uefi.conf
+    if grep -q "AMD" /proc/cpuinfo; then
+        echo "initrd /amd-ucode.img" >> /boot/loader/entries/arch-uefi.conf
+    elif grep -q "Intel" /proc/cpuinfo; then
+        echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch-uefi.conf
+    fi
+    echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch-uefi.conf
+    echo "options root=LABEL=ROOT rw resume=LABEL=SWAP" >> /boot/loader/entries/arch-uefi.conf
+    # Config Arch Linux (LTS)
+    echo "title Arch Linux LTS" > /boot/loader/entries/arch-uefi-lts.conf
+    echo "linux /vmlinuz-linux-lts" >> /boot/loader/entries/arch-uefi-lts.conf
+    if grep -q "AMD" /proc/cpuinfo; then
+        echo "initrd /amd-ucode.img" >> /boot/loader/entries/arch-uefi-lts.conf
+    elif grep -q "Intel" /proc/cpuinfo; then
+        echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch-uefi-lts.conf
+    fi
+    echo "initrd /initramfs-linux-lts.img" >> /boot/loader/entries/arch-uefi-lts.conf
+    echo "options root=LABEL=ROOT rw resume=LABEL=SWAP" >> /boot/loader/entries/arch-uefi-lts.conf
+    # Config Arch Linux (fallback)
+    echo "title Arch Linux Fallback" > /boot/loader/entries/arch-uefi-fallback.conf
+    echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch-uefi-fallback.conf
+    if grep -q "AMD" /proc/cpuinfo; then
+        echo "initrd /amd-ucode.img" >> /boot/loader/entries/arch-uefi-fallback.conf
+    elif grep -q "Intel" /proc/cpuinfo; then
+        echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch-uefi-fallback.conf
+    fi
+    echo "initrd /initramfs-linux-fallback.img" >> /boot/loader/entries/arch-uefi-fallback.conf
+    echo "options root=LABEL=ROOT rw resume=LABEL=SWAP" >> /boot/loader/entries/arch-uefi-fallback.conf
+    # Config Loader
+    echo "default arch-uefi.conf" > /boot/loader/loader.conf
+    echo "timeout 4" >> /boot/loader/loader.conf
+    echo "editor no" >> /boot/loader/loader.conf
+    echo "#console-mode keep" >> /boot/loader/loader.conf
+elif is_artixlinux; then
+    installpkg grub
+
+    # Install the GRUB
+    if [ "$(ls -A /sys/firmware/efi/efivars)" ]; then # UEFI systems
+        grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
+    else # BIOS systems
+        grub-install --recheck /dev/sda
+    fi
+
+    # Set the default options
+    sed -i -e '/#GRUB_DISABLE_SUBMENU=/s/^.//' /etc/default/grub
+    sed -i "/GRUB_DEFAULT=/c\GRUB_DEFAULT='Artix Linux, with Linux linux'" /etc/default/grub
+    # With submenu entries this would have to be:
+    # sed -i "/GRUB_DEFAULT=/c\GRUB_DEFAULT='Advanced options for Artix Linux>Artix Linux, with Linux linux'" /etc/default/grub
+
+    # Generate the GRUB conig
+    grub-mkconfig -o /boot/grub/grub.cfg
+else
+    error "System not supported"
 fi
-echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch-uefi.conf
-echo "options root=LABEL=ROOT rw resume=LABEL=SWAP" >> /boot/loader/entries/arch-uefi.conf
-# Config Arch Linux (LTS)
-echo "title Arch Linux LTS" > /boot/loader/entries/arch-uefi-lts.conf
-echo "linux /vmlinuz-linux-lts" >> /boot/loader/entries/arch-uefi-lts.conf
-if grep -q "AMD" /proc/cpuinfo; then
-    echo "initrd /amd-ucode.img" >> /boot/loader/entries/arch-uefi-lts.conf
-elif grep -q "Intel" /proc/cpuinfo; then
-    echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch-uefi-lts.conf
-fi
-echo "initrd /initramfs-linux-lts.img" >> /boot/loader/entries/arch-uefi-lts.conf
-echo "options root=LABEL=ROOT rw resume=LABEL=SWAP" >> /boot/loader/entries/arch-uefi-lts.conf
-# Config Arch Linux (fallback)
-echo "title Arch Linux Fallback" > /boot/loader/entries/arch-uefi-fallback.conf
-echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch-uefi-fallback.conf
-if grep -q "AMD" /proc/cpuinfo; then
-    echo "initrd /amd-ucode.img" >> /boot/loader/entries/arch-uefi-fallback.conf
-elif grep -q "Intel" /proc/cpuinfo; then
-    echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch-uefi-fallback.conf
-fi
-echo "initrd /initramfs-linux-fallback.img" >> /boot/loader/entries/arch-uefi-fallback.conf
-echo "options root=LABEL=ROOT rw resume=LABEL=SWAP" >> /boot/loader/entries/arch-uefi-fallback.conf
-# Config Loader
-echo "default arch-uefi.conf" > /boot/loader/loader.conf
-echo "timeout 4" >> /boot/loader/loader.conf
-echo "editor no" >> /boot/loader/loader.conf
-echo "#console-mode keep" >> /boot/loader/loader.conf
 
 # ########################################################################################################## #
 #                                                 Add user(s)                                                #
@@ -142,14 +169,6 @@ mkdir -p "$repodir"
 chown -R "$name":wheel "$(dirname "$repodir")"
 
 # ########################################################################################################## #
-#                                            User root permissions                                           #
-# ########################################################################################################## #
-
-# Allow user to run sudo without password. Since AUR programs must be installed
-# in a fakeroot environment, this is required for all builds with AUR.
-sudoperms "%wheel ALL=(ALL) NOPASSWD: ALL"
-
-# ########################################################################################################## #
 #                                            Network configuration                                           #
 # ########################################################################################################## #
 
@@ -166,11 +185,33 @@ echo "" >> /etc/hosts
 echo "#<IP-Address> <hostname.domain>     <hostname>" >> /etc/hosts
 echo "127.0.0.1     localhost.localdomain localhost" >> /etc/hosts
 echo "::1           localhost.localdomain localhost" >> /etc/hosts
-echo "127.0.1.1     $hostname.localdomain $hostname" >> /etc/hosts
 
 # NetworkManager
-pacinstall networkmanager wget git inetutils
-systemctl enable NetworkManager
+installpkg networkmanager wget git inetutils
+
+if is_archlinux; then
+    systemctl enable NetworkManager
+elif is_artixlinux; then
+    installpkg networkmanager-runit
+    ln -s /etc/runit/sv/NetworkManager /etc/runit/runsvdir/default >/dev/null 2>&1
+
+    # Log the output from wpa_supplicant to syslog instead of stdout
+    sed -i 's/Exec=.*/Exec=\/usr\/bin\/wpa_supplicant -u -s/g' /usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.service
+else
+    error "System not supported"
+fi
+# ########################################################################################################## #
+#                                             Syslog replacement                                             #
+# ########################################################################################################## #
+
+if is_artixlinux; then
+    box "Syslog replacement"
+
+    # Runit has a different type of logging, which relies on creating log scripts
+    # However there are a lot of programs not respecting this, so you need a syslog replacement
+    installpkg socklog
+    ln -s /etc/runit/sv/socklog /etc/runit/runsvdir/default >/dev/null 2>&1
+fi
 
 # ########################################################################################################## #
 #                                                TALIS scripts                                               #
@@ -186,7 +227,7 @@ box "Storing TALIS repo in user folder"
 
 box "Updating mirrorlist (this can take a while)"
 
-pacinstall reflector
+installpkg reflector
 
 reflector --verbose -l 200 --sort rate --save /etc/pacman.d/mirrorlist
 

@@ -1,5 +1,5 @@
 #!/bin/sh
-# ToppDev's Arch Linux Installation Scripts (TALIS)
+# ToppDev's Artix/Arch Linux Installation Scripts (TALIS)
 # by Thomas Topp <dev@topp.cc>
 # License: GNU GPLv3
 
