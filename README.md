@@ -11,8 +11,8 @@
     sh 010-InstallOnStick.sh
     ```
 - Reboot the system and login into the installed system as the user you created
-- Then execute the script `100-PostInstallationConfig.sh`
-- If you have personal scripts to execute afterwards this can be done via `200-PersonalConfig.sh`
+- Then execute the script `100-PostInstallationConfig.sh -r https://github.com/ToppDev/dotfiles.git`
+- If you have personal scripts to execute afterwards this can be done via `200-PersonalConfig.sh -r https://github.com/ToppDev/TALIS-private.git`
 
 ## What is TALIS?
 
