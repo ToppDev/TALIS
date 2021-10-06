@@ -5,6 +5,8 @@
 
 # ########################################################################################################## #
 
+export aurhelper="yay"
+
 # Install the specified package
 installpkg() {
     if [ $(whoami) = "root" ]; then
@@ -16,7 +18,7 @@ installpkg() {
 
 # Install the specified package from the AUR
 installaur() {
-    yay -S --noconfirm --needed $@
+    $aurhelper -S --noconfirm --needed $@
 }
 
 # Downloads or resets the dotfiles to the ones from the repository
@@ -98,12 +100,17 @@ installationloop() {
             sh "$scriptdir/package/$program/hooks/pre.sh"
         fi
 
-        case "$tag" in
-            "A") aurinstall "$program" "$comment" ;;
-            "G") gitmakeinstall "$program" "$comment" ;;
-            "P") pipinstall "$program" "$comment" ;;
-            *) maininstall "$program" "$comment" ;;
-        esac
+        if [ -f "$scriptdir/package/$program/hooks/install.sh" ]; then
+            info "Installing \`$program\` ($n of $total). $program $comment"
+            sh "$scriptdir/package/$program/hooks/install.sh"
+        else
+            case "$tag" in
+                "A") aurinstall "$program" "$comment" ;;
+                "G") gitmakeinstall "$program" "$comment" ;;
+                "P") pipinstall "$program" "$comment" ;;
+                *) maininstall "$program" "$comment" ;;
+            esac
+        fi
 
         if [ -f "$scriptdir/package/$program/hooks/post.sh" ]; then
             info "Executing post-installation hook for \`$program\`"

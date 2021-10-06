@@ -7,6 +7,7 @@
 #,xorg-server-xephyr,is a nested X server that runs as an X application. (used for testing lightdm without restart via `lightdm --test-mode --debug`)
 ,lightdm,is a lightweight display manager.
 ,lightdm-gtk-greeter,is a GTK+ greeter for LightDM.
+,libxft-bgra-git, enables color emoji in suckless software without crashes.
 ,zsh,is a very advanced and programmable command interpreter (shell) for UNIX.
 ,zsh-autosuggestions,provides Fish-like autosuggestions for zsh.
 ,zsh-theme-powerlevel10k,is a theme for Zsh.
