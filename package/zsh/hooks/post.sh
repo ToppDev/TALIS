@@ -30,8 +30,8 @@ if [ ! -d "/home/$(whoami)/.local/share/oh-my-zsh" ]; then
 fi
 
 # Make zsh the default shell for the user.
-sudo chsh -s /bin/zsh $(whoami)
 mkdir -p "/home/$(whoami)/.cache/zsh/"
+sudo chsh -s /bin/zsh $(whoami)
 
 # Fish-like autosuggestions for zsh
 pacinstall zsh-autosuggestions
@@ -41,9 +41,3 @@ pacinstall zsh-theme-powerlevel10k
 pacinstall zsh-completions
 # Optimized and extended zsh-syntax-highlighting
 aurinstall zsh-fast-syntax-highlighting
-
-
-# TODO: Add zsh-fast-syntax-highlighting to the .zshrc
-# TODO: Add zsh-autosuggestions to the .zshrc
-# TODO: Add zsh-theme-powerlevel10k to the .zshrc
-# TODO: Add zsh-completions to the .zshrc
