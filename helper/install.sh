@@ -30,12 +30,15 @@ putdotfiles() {
     [ -z "$2" ] && branch="master" || branch="$2"
 
     progname="$(basename "$repo" .git)"
-    dir="$repodir/$progname"
+    dir="/home/$(whoami)/.local/share/$progname"
 
     info "Downloading Dotfiles..."
 
     git clone --bare --branch "$branch" $repo $dir
     git --git-dir=$dir --work-tree=/home/$(whoami)/ -f checkout
+    rm -f "/home/$(whoami)/README.md" "/home/$(whoami)/LICENSE"
+    # make git ignore deleted LICENSE & README.md files
+    git --git-dir=$dir --work-tree=/home/$(whoami)/ update-index --assume-unchanged "/home/$(whoami)/README.md" "/home/$(whoami)/LICENSE"
 }
 
 # ########################################################################################################## #

@@ -168,7 +168,7 @@ installationloop
 box "Dotfiles"
 
 # Install the dotfiles in the user's home directory
-putgitrepo "$dotfilesrepo" "$repodir" "$repobranch"
+putdotfiles "$dotfilesrepo" "$repobranch"
 
 xdg-user-dirs-update --force
 rmdir "/home/$(whoami)/Desktop" >/dev/null 2>&1
