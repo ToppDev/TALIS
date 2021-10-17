@@ -5,17 +5,25 @@
 - First follow the instructions in `000-BaseInstall.md`
 - Still on the stick after changing into the newly installed file system, run the following
     ```
-    cd /tmp
-    git clone https://github.com/ToppDev/TALIS.git
-    cd TALIS
-    sh 010-InstallOnStick.sh
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ToppDev/TALIS/main/010-InstallOnStick.sh)"
     ```
 - Reboot the system and login into the installed system as the user you created
-- Then execute the script `100-PostInstallationConfig.sh -r https://github.com/ToppDev/dotfiles.git`
-- If you have personal scripts to execute afterwards this can be done via `200-PersonalConfig.sh -r https://github.com/ToppDev/TALIS-private.git`
+- Then execute the script
+    ```
+    sh ~/.local/src/TALIS/100-PostInstallationConfig.sh -r https://github.com/ToppDev/dotfiles.git
+    ```
+- If you have personal scripts to execute afterwards this can be done via (replace the URL with your own)
+    ```
+   sh ~/.local/src/TALIS/200-PersonalConfig.sh -r <PRIVATE-REPO>
+   ```
+   It simply puts your private repo into the folder `~/.local/src` and then executes the script `private.sh` within it.
 
 ## What is TALIS?
 
 TALIS is a script collection to automatically install and configure an Artix or Arch Linux environment.
 
-This script is a merge between my own installation scripts and the scripts from [LARBS](https://github.com/LukeSmithxyz/LARBS) by Luke Smith.
+## Acknowledgements
+
+Some ideas and code was taken from other projects. Credits for those go to
+
+* Luke Smith ([LARBS](https://github.com/LukeSmithxyz/LARBS))
