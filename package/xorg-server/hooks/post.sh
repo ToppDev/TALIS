@@ -20,17 +20,20 @@ source "$scriptdir/helper/checkArchRootInternet.sh"
 
 # Driver installation
 if lspci -v | grep -A1 -e VGA -e 3D | grep -q "Intel"; then
-    installpkg xf86-video-intel mesa lib32-mesa
+    installpkg xf86-video-intel mesa lib32-mesa vulkan-intel lib32-vulkan-intel
     # Problems with some intel chips (https://wiki.archlinux.de/title/Intel)
     sudo sed -i 's/MODULES=()/MODULES=(intel_agp i915)/g' /etc/mkinitcpio.conf
     sudo mkinitcpio -p linux
 elif lspci -v | grep -A1 -e VGA -e 3D | grep -q "NVIDIA"; then
     installpkg nvidia nvidia-utils nvidia-settings lib32-nvidia-utils
 elif lspci -v | grep -A1 -e VGA -e 3D | grep -q "AMD"; then
-    installpkg xf86-video-amdgpu mesa lib32-mesa
+    installpkg xf86-video-amdgpu mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon
 elif lspci -v | grep -A1 -e VGA -e 3D | grep -q "ATI"; then
     installpkg xf86-video-ati mesa lib32-mesa
 fi
+
+# Vulkan Installable Client Driver (ICD) Loader
+installpkg vulkan-icd-loader
 
 # Touchpad support
 if xinput list | grep -q "Touchpad"; then

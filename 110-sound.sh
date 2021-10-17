@@ -48,12 +48,6 @@ pacinstall gstreamer
 # Multimedia graph framework - ugly plugins
 pacinstall gst-plugins-good gst-plugins-bad gst-plugins-base gst-plugins-ugly
 
-# Volume control for the system tray
-pacinstall volumeicon
-
-# mpris media player controller and lib for spotify, vlc, audacious, bmp, xmms2, and others.
-pacinstall playerctl
-
 # Fix fluidsynth/pulseaudio issue.
 sudo grep -q "OTHER_OPTS='-a pulseaudio -m alsa_seq -r 48000'" /etc/conf.d/fluidsynth ||
     sudo sh -c 'echo "OTHER_OPTS=\"-a pulseaudio -m alsa_seq -r 48000\"" >> /etc/conf.d/fluidsynth'

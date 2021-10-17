@@ -119,10 +119,6 @@ echo "Installing category Other"
 
 echo "Installing category System"
 
-
-# libXft with BGRA glyph (color emoji) rendering & scaling patches by Maxime Coste
-trizen -S --noconfirm --needed  libxft-bgra-git
-
 # Bash script for downgrading one or more packages to a version in your cache or the A.L.A.
 aurinstall downgrade
 

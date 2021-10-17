@@ -1,54 +1,138 @@
 #TAG,NAME IN REPO (or git url),PURPOSE (should be a verb phrase to sound right while installing)
-/* ######################################################################################################## */
-/*                                                  System                                                  */
-/* ######################################################################################################## */
-,xorg-server,is the graphical server.
-,xorg-xinit,starts the graphical server.
-#,xorg-server-xephyr,is a nested X server that runs as an X application. (used for testing lightdm without restart via `lightdm --test-mode --debug`)
-,lightdm,is a lightweight display manager.
-,lightdm-gtk-greeter,is a GTK+ greeter for LightDM.
-,xcompmgr,is for transparency and removing screen-tearing.
-,libxft-bgra-git, enables color emoji in suckless software without crashes.
-,zsh,is a very advanced and programmable command interpreter (shell) for UNIX.
-,zsh-autosuggestions,provides Fish-like autosuggestions for zsh.
-A,zsh-theme-powerlevel10k-git,is a theme for Zsh.
-,zsh-completions,adds additional completion definitions for Zsh.
-A,zsh-fast-syntax-highlighting,provides syntax highlighting in the shell.
-G,https://github.com/ToppDev/st,"is my custom build of suckless's terminal emulator."
-/* ######################################################################################################## */
-/*                                                   Fonts                                                  */
-/* ######################################################################################################## */
-#,awesome-terminal-fonts,are fonts/icons for powerlines
-,ttf-fira-code,is a monospaced font with programming ligatures
-,ttf-joypixels,adds support for Emoji as a Service (formerly EmojiOne)
-#A,nerd-fonts-complete,is a font collection with 3.600+ icons & 50+ patched fonts.
 ##############################################################################################################
-,nano,is a Pico editor clone with enhancements
-A,brave-bin,"is an elegant browser with built-in adblocking, tor and other features."
+##                                                Essentials                                                ##
+##############################################################################################################
+,xorg-server,"is the graphical server."
+,xorg-xinit,"starts the graphical server."
+#,xorg-server-xephyr,"is a nested X server that runs as an X application. (used for testing lightdm without restart via `lightdm --test-mode --debug`)"
+,lightdm,"is a lightweight display manager."
+,lightdm-gtk-greeter,"is a GTK+ greeter for LightDM."
+,xcompmgr,"is for transparency and removing screen-tearing."
+,libxft-bgra-git,"enables color emoji in suckless software without crashes."
+A,j4-dmenu-desktop-git,"finds .desktop files and starts them using dmenu."
+,xclip,"allows for copying and pasting from the command line."
+,xdotool,"provides window action utilities on the command line."
+,zsh,"is a very advanced and programmable command interpreter (shell) for UNIX."
+,zsh-autosuggestions,"provides Fish-like autosuggestions for zsh."
+,zsh-completions,"adds additional completion definitions for Zsh."
+A,zsh-theme-powerlevel10k-git,"is a theme for Zsh."
+A,zsh-fast-syntax-highlighting,"provides syntax highlighting in the shell."
+G,https://github.com/ToppDev/st,"is a simple terminal emulator."
+G,https://github.com/ToppDev/dmenu.git,"runs commands and provides a UI for selection."
+G,https://github.com/ToppDev/dwm.git,"is the window manager."
+G,https://github.com/ToppDev/dsblocks.git,"serves as the modular status bar."
+##############################################################################################################
+##                                                   Fonts                                                  ##
+##############################################################################################################
+,awesome-terminal-fonts,"are fonts/icons for powerlines"
+,ttf-joypixels,"adds support for Emoji as a Service (formerly EmojiOne)"
+A,nerd-fonts-complete,"is a font collection with 3.600+ icons & 50+ patched fonts."
+##############################################################################################################
+
+##############################################################################################################
+##                                                Accessories                                               ##
+##############################################################################################################
+,flameshot,"is a powerful yet simple to use screenshot software"
+,gnuplot,"is a plotting package which outputs to X11, PostScript, PNG, GIF, and others"
+,highlight,"can highlight code output."
+,keepassxc,"is a cross-platform community-driven port of Keepass password manager"
+,peek,"is a simple screen recorder with an easy to use interface"
+,screenkey,"is a screencast tool to display your keys inspired by Screenflick"
+,variety,"changes the wallpaper on a regular interval using user-specified or automatically downloaded images."
 ##############################################################################################################
 ##                                                Development                                               ##
 ##############################################################################################################
-,code,is the Open Source build of Visual Studio Code (vscode) editor
-,neovim,"a tidier vim with some useful features"
+,ccache,"is a compiler cache that speeds up recompilation by caching previous compilations"
+,cmake,"is a cross-platform open-source make system"
+A,cmake-format,"is a source code formatter for CMake listfiles"
+,code,"is the Open Source build of Visual Studio Code (vscode) editor."
+,cppcheck,"is a tool for static C/C++ code analysis"
+,doxygen,"is a documentation system for C++, C, Java, IDL and PHP"
+,gcc,"is the GNU Compiler Collection - C and C++ frontends"
+,gdb,"is the GNU Debugger"
+,git,"is the fast distributed version control system"
+,glfw-x11,"is a free, open source, portable framework for graphical application development (x11)"
+,gperftools,"is a fast, multi-threaded malloc and nifty performance analysis tools"
+,graphviz,"is a graph visualization software"
+,gv,"is a program to view PostScript and PDF documents"
+,kcachegrind,"visualizes Performance Profiling Data"
+,make,"provides GNU make utility to maintain groups of programs"
+,meld,"compares files, directories and working copies"
+,nano,"is a Pico editor clone with enhancements."
+,neovim,"a tidier vim with some useful features."
+,perl-xml-twig,"is a module for easy processing of XML"
+,texlive-most,"is a group, that contains most TeX Live packages."
+,valgrind,"is a tool to help find memory-management problems in programs"
 ##############################################################################################################
-#,xorg-xwininfo,"allows querying information about windows."
+##                                                 Education                                                ##
+##############################################################################################################
+,octave,"is a high-level language, primarily intended for numerical computations."
+##############################################################################################################
+##                                                   Games                                                  ##
+##############################################################################################################
+##############################################################################################################
+##                                                 Graphics                                                 ##
+##############################################################################################################
+,blender,"is a fully integrated 3D graphics creation suite"
+,gimp,"is the GNU Image Manipulation Program"
+,inkscape,"is a professional vector graphics editor"
+,nomacs,"is a Qt image viewer"
+##############################################################################################################
+##                                                 Internet                                                 ##
+##############################################################################################################
+A,brave-bin,"is an elegant browser with built-in adblocking, tor and other features."
+,teamspeak3,"is software for quality voice communication via the Internet"
+,firefox,"is a standalone web browser from mozilla.org"
+##############################################################################################################
+##                                                Multimedia                                                ##
+##############################################################################################################
+,shotcut,"is a cross-platform Qt based Video Editor"
+,simplescreenrecorder,"is a feature-rich screen recorder that supports X11 and OpenGL"
+,vlc,"is a multi-platform MPEG, VCD/DVD, and DivX player"
+##############################################################################################################
+##                                                  Office                                                  ##
+##############################################################################################################
+,nextcloud-client,"is the nextcloud desktop client"
+,okular,"is a document viewer"
+##############################################################################################################
+##                                                  Other                                                   ##
+##############################################################################################################
+##############################################################################################################
+##                                                 Settings                                                 ##
+##############################################################################################################
+,arandr,"allows the user to customize monitor arrangements."
+##############################################################################################################
+##                                                  System                                                  ##
+##############################################################################################################
+,accountsservice,"is a D-Bus interface for user account query and manipulation"
+,arc-gtk-theme,"is a flat theme with transparent elements for GTK 3, GTK 2 and Gnome-Shell"
+,dunst,"is a suckless notification system."
+,i3lock,"is a improved screenlocker based upon XCB and PAM"
+,libnotify,"allows desktop notifications."
+,numlockx,"turns on the numlock key in X11."
+,pamixer,"is a command-line audio interface."
+,playerctl,"is a mpris media player controller and lib for spotify, vlc, audacious, bmp, xmms2, and others."
+,pulsemixer,"is an audio controller."
+,thunar,"is a modern file manager for Xfce"
+,thunar-archive-plugin,"creates and extracts archives in Thunar"
+,thunar-volman,"automatically manages removeable devices in Thunar"
+,thunar-media-tags-plugin,"adds special features for media files to the Thunar File Manager"
+,unclutter,"hides an inactive mouse."
+,xfce4-appfinder,"is an application finder for Xfce"
+,xorg-xbacklight,"enables changing screen brightness levels."
+,xorg-xdpyinfo,"is a display information utility for X"
+,xorg-xkill,"kills a client by its X resource"
+,xorg-xprop,"is a tool for detecting window properties."
+,xorg-xwininfo,"allows querying information about windows."
+##############################################################################################################
 #,ttf-linux-libertine,"provides the sans and serif fonts for LARBS."
 #A,lf-git,"is an extensive terminal file manager that everyone likes."
-#,bc,"is used for a dropdown calculator."
-#,xcompmgr,"is for transparency and removing screen-tearing."
-#,xorg-xprop,"is a tool for detecting window properties."
-#,arandr,"allows the user to customize monitor arrangements."
 #,dosfstools,"allows your computer to access dos-like filesystems."
-#,libnotify,"allows desktop notifications."
-#,dunst,"is a suckless notification system."
 #,exfat-utils,"allows management of FAT drives."
-#,sxiv,"is a minimalist image viewer."
-#,xwallpaper,"sets the wallpaper."
 #,ffmpeg,"can record and splice video and audio on the command line."
 #,gnome-keyring,"serves as the system keyring."
 #A,gtk-theme-arc-gruvbox-git,"gives the dark GTK theme used in LARBS."
 #,mpd,"is a lightweight music daemon."
-#,mpc,"is a terminal interface for mpd."
 #,mpv,"is the patrician's choice video player."
 #,man-db,"lets you read man pages of programs."
 #,ncmpcpp,"a ncurses interface for music with multiple formats and a powerful tag editor."
@@ -56,18 +140,9 @@ A,brave-bin,"is an elegant browser with built-in adblocking, tor and other featu
 #,noto-fonts-emoji,"is an emoji font."
 #,ntfs-3g,"allows accessing NTFS partitions."
 #,pulseaudio-alsa,"is the audio system."
-#,pulsemixer,"is an audio controller."
-#,pamixer,"is a command-line audio interface."
-#A,sc-im,"is an Excel-like terminal spreadsheet manager."
-#A,abook,"is an offline addressbook usable by neomutt."
-#,unclutter,"hides an inactive mouse."
 #,unrar,"extracts rar's."
 #,unzip,"unzips zips."
-#,lynx,"is a terminal browser."
 #,xcape,"gives the special escape/super mappings of LARBS."
-#,xclip,"allows for copying and pasting from the command line."
-#,xdotool,"provides window action utilities on the command line."
-#,xorg-xdpyinfo,"aids with resolution determination and screen recording."
 #,youtube-dl,"can download any YouTube video (or playlist or channel) when given the link."
 #,zathura,"is a pdf viewer with vim-like bindings."
 #,zathura-pdf-mupdf,"allows mupdf pdf compatibility in zathura."
@@ -75,15 +150,12 @@ A,brave-bin,"is an elegant browser with built-in adblocking, tor and other featu
 #,mediainfo,"shows audio and video information."
 #,atool,"manages and gives information about archives."
 #,fzf,"is a fuzzy finder tool."
-#,highlight,"can highlight code output."
-#,xorg-xbacklight,"enables changing screen brightness levels."
 #A,task-spooler,"queues commands or files for download."
 #A,simple-mtpfs,"enables the mounting of cell phones."
-#A,htop-vim-git,"is a graphical and colorful system monitor."
-#G,https://github.com/LukeSmithxyz/dwmblocks.git,"serves as the modular status bar."
-#G,https://github.com/lukesmithxyz/dmenu.git,"runs commands and provides a UI for selection."
-#G,https://github.com/lukesmithxyz/dwm.git,"is the window manager."
-#A,mutt-wizard-git,"is a light-weight terminal-based email system."
-#,slock,"allows you to lock your computer, and quickly unlock with your password."
 #,socat,"is a utility which establishes two byte streams and transfers data between them."
 #,moreutils,"is a collection of useful unix tools."
+#A,sc-im,"is an Excel-like terminal spreadsheet manager."
+#A,abook,"is an offline addressbook usable by neomutt."
+#,lynx,"is a terminal browser."
+#A,htop-vim-git,"is a graphical and colorful system monitor."
+#A,mutt-wizard-git,"is a light-weight terminal-based email system."
