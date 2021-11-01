@@ -5,7 +5,9 @@
 - First follow the instructions in `000-BaseInstall.md`
 - Still on the stick after changing into the newly installed file system, run the following
     ```
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ToppDev/TALIS/main/010-InstallOnStick.sh)"
+    cd /tmp
+    git clone https://github.com/ToppDev/TALIS.git
+    cd TALIS && ./010-InstallOnStick.sh
     ```
 - Reboot the system and login into the installed system as the user you created
 - Then execute the script
