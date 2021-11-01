@@ -93,7 +93,8 @@ pipinstall() { \
 # Installs all packages defined in the provided progs file
 # Adapted from LARBS by Luke Smith (https://github.com/LukeSmithxyz/LARBS)
 installationloop() {
-    ([ -f "$progsfile" ] && cp "$progsfile" /tmp/progs.csv) || curl -Ls "$progsfile" | sed '/^#/d' > /tmp/progs.csv
+    ([ -f "$progsfile" ] && cp "$progsfile" /tmp/progs.csv) || curl -Ls "$progsfile" > /tmp/progs.csv
+    sed -i '/^#/d' /tmp/progs.csv
     total=$(wc -l < /tmp/progs.csv)
     while IFS=, read -r tag program comment; do
         n=$((n+1))
