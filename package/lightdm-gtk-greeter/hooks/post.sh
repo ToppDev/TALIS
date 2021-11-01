@@ -30,6 +30,7 @@ sudo cp $packagedir/config/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-gre
 if is_archlinux; then
     sudo systemctl enable lightdm.service
 elif is_artixlinux; then
+    installpkg lightdm-runit
     sudo ln -s /etc/runit/sv/lightdm /run/runit/service && sudo sv stop lightdm
 else
     error "System not supported"
