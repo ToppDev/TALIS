@@ -75,7 +75,7 @@ gitmakeinstall() {
 
     progname="$(basename "$repo" .git)"
     dir="$repodir/$progname"
-    info "Installing \`$progname\` ($n of $total) via \`git\` and \`make\`. $(basename "$repo") $comment"
+    info "Installing \`$progname\` ($n of $total) via \`git\` and \`make\`. $progname $comment"
     git clone --depth 1 "$repo" "$dir" >/dev/null 2>&1 || { cd "$dir" || return 1 ; git pull --force origin master;}
     # Spawn subshell
     (cd "$dir" && make >/dev/null 2>&1 && sudo make install >/dev/null 2>&1)
