@@ -44,7 +44,7 @@ done
 
 [ -z "$dotfilesrepo" ] && echo -e "Dotfiles repository is required. Please specify -r\\n" && usage
 [ -z "$repobranch" ] && repobranch="main"
-[ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/ToppDev/TALIS/main/progs.csv"
+[ -z "$progsfile" ] && progsfile="$scriptdir/progs.csv"
 
 git ls-remote "$dotfilesrepo" -b $repobranch | grep -q $repobranch || error "The remote repository \"$dotfilesrepo\" on branch \"$repobranch\" can't be accessed."
 

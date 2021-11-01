@@ -75,8 +75,8 @@ A,conan,"is a distributed, open source, C/C++ package manager."
 ##                                                   Games                                                  ##
 ##############################################################################################################
 ,lutris,"is the Open Gaming Platform"
-,battle.net,"is the Battle.net launcher from Blizzard"
-,leagueoflegends,"is League of Legends from Riot"
+#,battle.net,"is the Battle.net launcher from Blizzard"
+#,leagueoflegends,"is League of Legends from Riot"
 A,steam-fonts,"are Fonts to fix scrambled or missing text in steam menus"
 ,steam,"is Valve's digital software delivery system"
 A,protontricks,"is a simple wrapper that does winetricks things for Proton enabled games."
