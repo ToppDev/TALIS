@@ -294,7 +294,7 @@ ntpdate 0.europe.pool.ntp.org
 
 box "Updating mirrorlist (this can take a while)"
 
-installpkg reflector
+installpkg reflector rsync
 
 reflector --verbose -l 200 --sort rate --save /etc/pacman.d/mirrorlist
 
