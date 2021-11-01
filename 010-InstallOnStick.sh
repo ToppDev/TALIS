@@ -222,6 +222,14 @@ box "Storing TALIS repo in user folder"
 [ ! -d $repodir/TALIS ] && sudo -u "$name" git clone https://github.com/ToppDev/TALIS.git $repodir/TALIS
 
 # ########################################################################################################## #
+#                                            User root permissions                                           #
+# ########################################################################################################## #
+
+# Allow user to run sudo without password. Since AUR programs must be installed
+# in a fakeroot environment, this is required for all builds with AUR.
+sudoperms "%wheel ALL=(ALL) NOPASSWD: ALL"
+
+# ########################################################################################################## #
 #                                              Update mirrorlist                                             #
 # ########################################################################################################## #
 
