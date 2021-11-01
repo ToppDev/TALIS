@@ -32,12 +32,3 @@ fi
 # Make zsh the default shell for the user.
 mkdir -p "/home/$(whoami)/.cache/zsh/"
 sudo chsh -s /bin/zsh $(whoami)
-
-# Fish-like autosuggestions for zsh
-installpkg zsh-autosuggestions
-# Powerlevel10k is a theme for Zsh. It emphasizes speed, flexibility and out-of-the-box experience
-installpkg zsh-theme-powerlevel10k
-# Additional completion definitions for Zsh
-installpkg zsh-completions
-# Optimized and extended zsh-syntax-highlighting
-installaur zsh-fast-syntax-highlighting

@@ -214,6 +214,91 @@ if is_artixlinux; then
 fi
 
 # ########################################################################################################## #
+#                                           Repositories & Keyring                                           #
+# ########################################################################################################## #
+
+box "Repositories & Keyring"
+
+# Make pacman colorful and add eye candy on the progress bar
+grep -q "^Color" /etc/pacman.conf || sed -i "s/^#Color$/Color/" /etc/pacman.conf
+grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
+
+# Reinstall Keyrings
+info "Refreshing Arch Keyring..."
+pacman --noconfirm -S gnupg archlinux-keyring
+
+if is_artixlinux; then
+    pacman --noconfirm -S artix-archlinux-support artix-keyring
+fi
+
+if is_archlinux; then
+    # Enable 32-bit support
+    sed -i '/#\[multilib\]/,+1{/#\[multilib\]/ n; s/^#//}' /etc/pacman.conf # Remove comment in next line after '#[multilib]'
+    sed -i '/#\[multilib\]/s/^.//' /etc/pacman.conf                         # Remove comment at start of line '#[multilib]'
+elif is_artixlinux; then
+    # Enable 32-bit support
+    sed -i '/#\[lib32\]/,+1{/#\[lib32\]/ n; s/^#//}' /etc/pacman.conf # Remove comment in next line after '#[lib32]'
+    sed -i '/#\[lib32\]/s/^.//' /etc/pacman.conf                      # Remove comment at start of line '#[lib32]'
+
+    # Add Arch repositories
+    if ! grep -q -o "\[[^]]*extra\]" /etc/pacman.conf; then
+        echo "" >> /etc/pacman.conf
+        echo "[extra]" >> /etc/pacman.conf
+        echo "Include = /etc/pacman.d/mirrorlist-arch" >> /etc/pacman.conf
+    fi
+    if ! grep -q -o "\[[^]]*community\]" /etc/pacman.conf; then
+        echo "" >> /etc/pacman.conf
+        echo "[community]" >> /etc/pacman.conf
+        echo "Include = /etc/pacman.d/mirrorlist-arch" >> /etc/pacman.conf
+    fi
+    if ! grep -q -o "\[[^]]*multilib\]" /etc/pacman.conf; then
+        echo "" >> /etc/pacman.conf
+        echo "[multilib]" >> /etc/pacman.conf
+        echo "Include = /etc/pacman.d/mirrorlist-arch" >> /etc/pacman.conf
+    fi
+else
+    error "System not supported"
+fi
+
+# Reset the Keychain
+rm -r /etc/pacman.d/gnupg
+pacman-key --init
+if is_archlinux; then
+    pacman-key --populate archlinux
+elif is_artixlinux; then
+    pacman-key --populate archlinux artix
+else
+    error "System not supported"
+fi
+# Update package database
+pacman -Sy
+
+# ########################################################################################################## #
+#                                               Necessary Tools                                              #
+# ########################################################################################################## #
+
+box "Necessary Tools"
+
+installpkg curl base-devel git ntp
+
+# Use all cores for compilation
+sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
+sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T '"$(nproc)"' -z -)/g' /etc/makepkg.conf
+
+info "Synchronizing time..."
+ntpdate 0.europe.pool.ntp.org
+
+# ########################################################################################################## #
+#                                              Update mirrorlist                                             #
+# ########################################################################################################## #
+
+box "Updating mirrorlist (this can take a while)"
+
+installpkg reflector
+
+reflector --verbose -l 200 --sort rate --save /etc/pacman.d/mirrorlist
+
+# ########################################################################################################## #
 #                                                TALIS scripts                                               #
 # ########################################################################################################## #
 
