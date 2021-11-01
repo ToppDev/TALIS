@@ -45,7 +45,7 @@ createUser() {
             && chown "$username":wheel /home/"$username" \
             && chsh -s /bin/bash "$username"
     # Additional groups
-    gpasswd -a $username users # Users group
+    gpasswd -a $username wheel # Sudo permissions
     gpasswd -a $username uucp # Accessing virtual serial ports (e.g. ttyUSB)
 }
 
