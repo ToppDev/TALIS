@@ -18,11 +18,5 @@ source "$scriptdir/helper/checkArchRootInternet.sh"
 #                                                   Script                                                   #
 # ########################################################################################################## #
 
-mkdir -p ~/.config/Code\ -\ OSS/User
-vsextensions=$(cat "$packagedir/extensions")
-while IFS= read -r line; do
-    code --install-extension $line
-done <<< "$vsextensions"
-
-# Live Share dependencies
-installpkg gcr liburcu openssl-1.0 krb5 zlib icu gnome-keyring libsecret desktop-file-utils
+sudo mkdir -p /usr/share/icons/default
+sudo sh -c 'echo -e "[Icon Theme]\nInherits=Breeze_Snow" > /usr/share/icons/default/index.theme'

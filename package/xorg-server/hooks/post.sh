@@ -29,11 +29,11 @@ elif lspci -v | grep -A1 -e VGA -e 3D | grep -q "NVIDIA"; then
 elif lspci -v | grep -A1 -e VGA -e 3D | grep -q "AMD"; then
     installpkg xf86-video-amdgpu mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon
 elif lspci -v | grep -A1 -e VGA -e 3D | grep -q "ATI"; then
-    installpkg xf86-video-ati mesa lib32-mesa
+    installpkg xf86-video-ati mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon
 fi
 
 # Vulkan Installable Client Driver (ICD) Loader
-installpkg vulkan-icd-loader
+installpkg vulkan-icd-loader lib32-vulkan-icd-loader
 
 # Touchpad support
 if xinput list | grep -q "Touchpad"; then
@@ -41,6 +41,7 @@ if xinput list | grep -q "Touchpad"; then
 fi
 
 # Config files
+sudo cp $packagedir/xinitrc.d/* /etc/X11/xinit/xinitrc.d/
 sudo cp $packagedir/xorg-conf/* /etc/X11/xorg.conf.d/
 
 # Close TCP Port 6000

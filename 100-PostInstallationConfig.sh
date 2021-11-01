@@ -170,12 +170,9 @@ box "Dotfiles"
 # Install the dotfiles in the user's home directory
 putdotfiles "$dotfilesrepo" "$repobranch"
 
-xdg-user-dirs-update --force
-rmdir "/home/$(whoami)/Desktop" >/dev/null 2>&1
-rmdir "/home/$(whoami)/Music" >/dev/null 2>&1
-rmdir "/home/$(whoami)/Public" >/dev/null 2>&1
-rmdir "/home/$(whoami)/Templates" >/dev/null 2>&1
-rmdir "/home/$(whoami)/Videos" >/dev/null 2>&1
+mkdir -p "/home/$(whoami)/Downloads"
+mkdir -p "/home/$(whoami)/Documents"
+mkdir -p "/home/$(whoami)/Pictures"
 
 # ########################################################################################################## #
 #                                            Misc program configs                                            #

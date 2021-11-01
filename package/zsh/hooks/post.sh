@@ -34,10 +34,10 @@ mkdir -p "/home/$(whoami)/.cache/zsh/"
 sudo chsh -s /bin/zsh $(whoami)
 
 # Fish-like autosuggestions for zsh
-pacinstall zsh-autosuggestions
+installpkg zsh-autosuggestions
 # Powerlevel10k is a theme for Zsh. It emphasizes speed, flexibility and out-of-the-box experience
-pacinstall zsh-theme-powerlevel10k
+installpkg zsh-theme-powerlevel10k
 # Additional completion definitions for Zsh
-pacinstall zsh-completions
+installpkg zsh-completions
 # Optimized and extended zsh-syntax-highlighting
-aurinstall zsh-fast-syntax-highlighting
+installaur zsh-fast-syntax-highlighting

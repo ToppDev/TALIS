@@ -18,11 +18,20 @@ source "$scriptdir/helper/checkArchRootInternet.sh"
 #                                                   Script                                                   #
 # ########################################################################################################## #
 
-mkdir -p ~/.config/Code\ -\ OSS/User
-vsextensions=$(cat "$packagedir/extensions")
-while IFS= read -r line; do
-    code --install-extension $line
-done <<< "$vsextensions"
+sudo sh -c 'echo "[Desktop Entry]
+Version=1.0
+Name=Brave Incognito
 
-# Live Share dependencies
-installpkg gcr liburcu openssl-1.0 krb5 zlib icu gnome-keyring libsecret desktop-file-utils
+# Gnome and KDE 3 uses Comment.
+Comment=Access the Internet Incognito
+Comment[de]=Inkognito Internetzugriff
+Comment[en_GB]=Access the Internet Incognito
+StartupWMClass=brave-browser
+Exec=brave --incognito %U
+StartupNotify=true
+Terminal=false
+Icon=brave
+Type=Application
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml_xml;image/webp;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
+Actions=new-window;new-private-window;" > /usr/share/applications/brave-browser-incognito.desktop'

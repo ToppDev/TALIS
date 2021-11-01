@@ -18,11 +18,7 @@ source "$scriptdir/helper/checkArchRootInternet.sh"
 #                                                   Script                                                   #
 # ########################################################################################################## #
 
-mkdir -p ~/.config/Code\ -\ OSS/User
-vsextensions=$(cat "$packagedir/extensions")
-while IFS= read -r line; do
-    code --install-extension $line
-done <<< "$vsextensions"
-
-# Live Share dependencies
-installpkg gcr liburcu openssl-1.0 krb5 zlib icu gnome-keyring libsecret desktop-file-utils
+wget -P /tmp -nc https://installers.privateinternetaccess.com/download/pia-linux-3.1-06756.run
+chmod +x /tmp/pia-linux-*.run
+/tmp/pia-linux-*.run
+rm -f /tmp/pia-linux-*.run

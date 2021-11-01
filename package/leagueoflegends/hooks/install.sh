@@ -18,11 +18,11 @@ source "$scriptdir/helper/checkArchRootInternet.sh"
 #                                                   Script                                                   #
 # ########################################################################################################## #
 
-mkdir -p ~/.config/Code\ -\ OSS/User
-vsextensions=$(cat "$packagedir/extensions")
-while IFS= read -r line; do
-    code --install-extension $line
-done <<< "$vsextensions"
-
-# Live Share dependencies
-installpkg gcr liburcu openssl-1.0 krb5 zlib icu gnome-keyring libsecret desktop-file-utils
+aurinstall wine-lol
+wget -P /tmp -nc https://lol.secure.dyn.riotcdn.net/channels/public/x/installer/current/live.euw.exe
+WINEARCH=win32 WINEPREFIX=${XDG_DATA_HOME:-$HOME/.local/share}/wineprefixes/LeagueOfLegends/ /opt/wine-lol/bin/wine /tmp/live.euw.exe
+if ! sudo grep -q "abi.vsyscall32=0" /etc/sudoers; then
+    sudo sed -i '/# ALL ALL=(ALL) ALL/a \\n%wheel ALL=(ALL) NOPASSWD: \/usr\/bin\/sysctl -w abi.vsyscall32=0' /etc/sudoers
+fi
+rm -f ${XDG_DATA_HOME:-$HOME/.local/share}/applications/wine/Programs/Riot\ Games/League\ of\ Legends.desktop
+rm -r ${XDG_DATA_HOME:-$HOME/.local/share}/applications/wine

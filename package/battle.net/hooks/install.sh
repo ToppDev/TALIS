@@ -18,11 +18,18 @@ source "$scriptdir/helper/checkArchRootInternet.sh"
 #                                                   Script                                                   #
 # ########################################################################################################## #
 
-mkdir -p ~/.config/Code\ -\ OSS/User
-vsextensions=$(cat "$packagedir/extensions")
-while IFS= read -r line; do
-    code --install-extension $line
-done <<< "$vsextensions"
-
-# Live Share dependencies
-installpkg gcr liburcu openssl-1.0 krb5 zlib icu gnome-keyring libsecret desktop-file-utils
+if pacman -Qs lutris > /dev/null; then
+    if ! lutris --list-games --installed | grep Battle.net; then
+        installpkg wine lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse
+        xdg-open lutris:blizzard-battlenet-standard
+        echo "[Desktop Entry]
+Type=Application
+Name=Blizzard Battle.net
+Icon=lutris_battlenet
+Exec=lutris lutris:rungameid/1
+Categories=Game
+Name[en_US.UTF-8]=Blizzard Battle.net" > $HOME/.local/share/applications/Blizzard\ Battle.net
+    fi
+else
+    error "Please install lutris before Battle.net"
+fi
