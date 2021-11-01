@@ -20,7 +20,7 @@ A,zsh-theme-powerlevel10k-git,"is a theme for Zsh."
 G,https://github.com/ToppDev/st,"is a simple terminal emulator."
 G,https://github.com/ToppDev/dmenu.git,"runs commands and provides a UI for selection."
 G,https://github.com/ToppDev/dwm.git,"is the window manager."
-G,https://github.com/ToppDev/dsblocks.git,"serves as the modular status bar."
+G,https://github.com/ToppDev/dwmblocks.git,"serves as the modular status bar."
 ##############################################################################################################
 ##                                                   Fonts                                                  ##
 ##############################################################################################################
