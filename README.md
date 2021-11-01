@@ -16,7 +16,7 @@
     ```
 - If you have personal scripts to execute afterwards this can be done via (replace the URL with your own)
     ```
-   sh ~/.local/src/TALIS/200-PersonalConfig.sh -r <PRIVATE-REPO>
+   sh ~/.local/src/TALIS/200-PersonalConfig.sh -r https://github.com/ToppDev/TALIS-private.git
    ```
    It simply puts your private repo into the folder `~/.local/src` and then executes the script `private.sh` within it.
 
