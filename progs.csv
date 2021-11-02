@@ -65,6 +65,7 @@ A,conan,"is a distributed, open source, C/C++ package manager."
 ,perl-xml-twig,"is a module for easy processing of XML"
 ,texlive-most,"is a group, that contains most TeX Live packages."
 ,valgrind,"is a tool to help find memory-management problems in programs"
+,vi,"is the original ex/vi text editor"
 ##############################################################################################################
 ##                                                 Education                                                ##
 ##############################################################################################################
