@@ -46,6 +46,7 @@ done
 [ -z "$repobranch" ] && repobranch="main"
 [ -z "$progsfile" ] && progsfile="$scriptdir/progs.csv"
 
+git config --global credential.helper 'cache --timeout=3600'
 git ls-remote "$dotfilesrepo" -b $repobranch | grep -q $repobranch || error "The remote repository \"$dotfilesrepo\" on branch \"$repobranch\" can't be accessed."
 
 # ########################################################################################################## #
@@ -65,20 +66,21 @@ export repodir="/home/$(whoami)/.local/src"
 sudoperms "%wheel ALL=(ALL) NOPASSWD: ALL"
 
 # ########################################################################################################## #
+#                                                  Dotfiles                                                  #
+# ########################################################################################################## #
+
+box "Installing Dotfiles"
+
+# Install the dotfiles in the user's home directory
+putdotfiles "$dotfilesrepo" "$repobranch"
+
+[ -f $HOME/.config/shell/profile ] && source $HOME/.config/shell/profile
+
+# ########################################################################################################## #
 #                                                 Aur Helper                                                 #
 # ########################################################################################################## #
 
 manualinstall yay-bin || error "Failed to install AUR helper."
-
-# ########################################################################################################## #
-#                                               Windows Manager                                              #
-# ########################################################################################################## #
-
-# TODO: Install dwm here
-
-# Fallback display manager
-#installpkg xfce4 xfce4-goodies
-
 
 # ########################################################################################################## #
 #                                            Package installation                                            #
@@ -90,9 +92,9 @@ installationloop
 #                                                  Dotfiles                                                  #
 # ########################################################################################################## #
 
-box "Dotfiles"
+box "Resetting Dotfiles"
 
-# Install the dotfiles in the user's home directory
+# Reset the dotfiles in the user's home directory
 putdotfiles "$dotfilesrepo" "$repobranch"
 
 mkdir -p "/home/$(whoami)/Downloads"
