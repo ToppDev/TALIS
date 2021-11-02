@@ -46,6 +46,7 @@ createUser() {
             && chsh -s /bin/bash "$username"
     # Additional groups
     gpasswd -a $username wheel # Sudo permissions
+    gpasswd -a $username users # Sudo permissions
     gpasswd -a $username uucp # Accessing virtual serial ports (e.g. ttyUSB)
 }
 
