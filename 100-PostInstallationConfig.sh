@@ -116,6 +116,7 @@ sudo sh -c "echo 'blacklist pcspkr' > /etc/modprobe.d/nobeep.conf"
 #                                                 Sudo config                                                #
 # ########################################################################################################## #
 
+box "Sudo config"
 # Remove the previous 'NOPASSWD ALL' and set new permissions
 sudoperms "%wheel ALL=(ALL) ALL" \
           "%users ALL=(ALL) NOPASSWD: /usr/bin/halt,/usr/bin/shutdown,/usr/bin/reboot,/usr/bin/poweroff" \
