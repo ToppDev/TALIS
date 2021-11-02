@@ -28,8 +28,6 @@ G,https://github.com/ToppDev/dwmblocks.git,"serves as the modular status bar."
 ,ttf-joypixels,"adds support for Emoji as a Service (formerly EmojiOne)"
 A,nerd-fonts-complete,"is a font collection with 3.600+ icons & 50+ patched fonts."
 ##############################################################################################################
-
-##############################################################################################################
 ##                                                Accessories                                               ##
 ##############################################################################################################
 ,flameshot,"is a powerful yet simple to use screenshot software"
@@ -187,8 +185,6 @@ A,sardi-icons,"is an icon collection for any linux distro with 6 different circu
 ,unrar,"is the RAR uncompression program"
 ,unzip,"for extracting and viewing files in .zip archives"
 ,virtualbox,"is a powerful x86 virtualization for enterprise as well as home use"
-,virtualbox-host-modules-arch,"are the Virtualbox host kernel modules for Arch Kernel"
-,virtualbox-guest-iso,"is the official VirtualBox Guest Additions ISO image"
 ,wine,"is a compatibility layer for running Windows programs"
 A,xcursor-breeze,"is the Breeze cursor theme (KDE Plasma 5)."
 ,xdg-user-dirs,"manages user directories like ~/Desktop and ~/Music"

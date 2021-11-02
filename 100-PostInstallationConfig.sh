@@ -121,6 +121,18 @@ sudoperms "%wheel ALL=(ALL) ALL" \
           "%wheel ALL=(ALL) NOPASSWD: /usr/bin/wifi-menu,/usr/bin/mount,/usr/bin/umount,/usr/bin/loadkeys" \
           "%wheel ALL=(ALL) NOPASSWD: /usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/pacman -Syyu --noconfirm"
 
+
+# ########################################################################################################## #
+#                                                   Cleanup                                                  #
+# ########################################################################################################## #
+
+[ -f $HOME/.zshrc ] && rm $HOME/.zshrc
+[ -f $HOME/.wget-hsts ] && rm $HOME/.wget-hsts
+[ -f $HOME/.bash_history ] && rm $HOME/.bash_history
+[ -f $HOME/.bash_logout ] && rm $HOME/.bash_logout
+[ -f $HOME/.bash_profile ] && rm $HOME/.bash_profile
+[ -f $HOME/.bashrc ] && rm $HOME/.bashrc
+
 # ########################################################################################################## #
 #                                                  Finished                                                  #
 # ########################################################################################################## #
