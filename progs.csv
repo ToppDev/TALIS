@@ -30,6 +30,7 @@ A,nerd-fonts-complete,"is a font collection with 3.600+ icons & 50+ patched font
 ##############################################################################################################
 ##                                                Accessories                                               ##
 ##############################################################################################################
+,feh,"is used to set the background image"
 ,flameshot,"is a powerful yet simple to use screenshot software"
 ,gnuplot,"is a plotting package which outputs to X11, PostScript, PNG, GIF, and others"
 ,highlight,"can highlight code output."
