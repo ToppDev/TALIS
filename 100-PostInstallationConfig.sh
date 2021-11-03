@@ -118,7 +118,8 @@ sudo sh -c "echo 'blacklist pcspkr' > /etc/modprobe.d/nobeep.conf"
 
 box "Sudo config"
 # Remove the previous 'NOPASSWD ALL' and set new permissions
-sudoperms "%wheel ALL=(ALL) ALL" \
+sudoperms "Defaults !tty_tickets" \
+          "%wheel ALL=(ALL) ALL" \
           "%users ALL=(ALL) NOPASSWD: /usr/bin/halt,/usr/bin/shutdown,/usr/bin/reboot,/usr/bin/poweroff" \
           "%users ALL=(ALL) NOPASSWD: /usr/bin/bluetooth on,/usr/bin/bluetooth off" \
           "%wheel ALL=(ALL) NOPASSWD: /usr/bin/wifi-menu,/usr/bin/mount,/usr/bin/umount,/usr/bin/loadkeys" \
