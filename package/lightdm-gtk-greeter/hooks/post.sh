@@ -26,6 +26,9 @@ sudo cp $packagedir/config/xsessions/* /usr/share/xsessions/
 sudo cp $packagedir/config/lightdm-background.jpg /usr/share/pixmaps/lightdm-background.jpg
 sudo cp $packagedir/config/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
 
+# Put the .Xauthority file into '/var/run/lightdm/user/xauthority' instead of '~/.Xauthority'
+sudo sed -i "s/#user-authority-in-system-dir=false/user-authority-in-system-dir=true/" /etc/lightdm/lightdm.conf
+
 # Enable service
 if is_archlinux; then
     sudo systemctl enable lightdm.service
