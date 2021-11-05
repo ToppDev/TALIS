@@ -37,8 +37,12 @@ putdotfiles() {
     [ -d $dir ] && rm -rf "$dir"
     git clone --bare --branch "$branch" "$repo" "$dir"
     git --git-dir="$dir" --work-tree=/home/$(whoami)/ checkout -f
-    rm -f "/home/$(whoami)/README.md" "/home/$(whoami)/LICENSE"
+    # Somehow git does not track the remote, because the fetch line is missing in the config
+    git --git-dir="$dir" --work-tree=/home/$(whoami)/ config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+    # Set the default push upstream target to 'origin'
+    git --git-dir="$dir" --work-tree=/home/$(whoami)/ push --set-upstream origin $branch
     # make git ignore deleted LICENSE & README.md files
+    rm -f "/home/$(whoami)/README.md" "/home/$(whoami)/LICENSE"
     git --git-dir="$dir" --work-tree=/home/$(whoami)/ update-index --assume-unchanged "/home/$(whoami)/README.md" "/home/$(whoami)/LICENSE"
 }
 
