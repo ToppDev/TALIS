@@ -10,6 +10,8 @@
 ,libxft-bgra-git,"enables color emoji in suckless software without crashes."
 A,j4-dmenu-desktop-git,"finds .desktop files and starts them using dmenu."
 ,xclip,"allows for copying and pasting from the command line."
+,xfce4-power-manager,"is the power manager for the Xfce desktop"
+,xfce4-settings,"is the settings manager of the Xfce desktop"
 ,xdotool,"provides window action utilities on the command line."
 ,zsh,"is a very advanced and programmable command interpreter (shell) for UNIX."
 ,zsh-autosuggestions,"provides Fish-like autosuggestions for zsh."
