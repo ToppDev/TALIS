@@ -96,6 +96,8 @@ A,brave-bin,"is an elegant browser with built-in adblocking, tor and other featu
 ,firefox,"is a standalone web browser from mozilla.org"
 A,google-chrome,"is the popular and trusted web browser by Google (Stable Channel)"
 A,jdownloader2,"is a download manager for one-click hosting sites"
+,remmina,"is a remote desktop client written in GTK+"
+,freerdp,"is a free implementation of the Remote Desktop Protocol (RDP)"
 ,teamspeak3,"is software for quality voice communication via the Internet"
 ##############################################################################################################
 ##                                                Multimedia                                                ##
