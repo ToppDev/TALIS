@@ -221,6 +221,7 @@ box "Repositories & Keyring"
 
 # Make pacman colorful and add eye candy on the progress bar
 grep -q "^Color" /etc/pacman.conf || sed -i "s/^#Color$/Color/" /etc/pacman.conf
+grep -q "^ParallelDownloads" /etc/pacman.conf || sed -i "s/^#ParallelDownloads/ParallelDownloads/" /etc/pacman.conf
 grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
 
 # Reinstall Keyrings
