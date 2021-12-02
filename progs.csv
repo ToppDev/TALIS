@@ -153,6 +153,7 @@ A,downgrade,"is a Bash script for downgrading one or more packages to a version 
 ,gutenprint,"are top quality printer drivers for POSIX systems"
 ,gvfs,"is a Virtual filesystem implementation for GIO"
 ,gvfs-mtp,"mounts Android devices with the Media-Transfer-Protocol"
+,hardinfo,"is a system information and benchmark tool."
 ,hplip,"are Drivers for HP DeskJet, OfficeJet, Photosmart, Business Inkjet and some LaserJet"
 ,htop,"is an interactive process viewer"
 ,i3lock,"is a improved screenlocker based upon XCB and PAM"
