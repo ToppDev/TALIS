@@ -78,6 +78,11 @@ fi
 if is_archlinux; then
     installpkg dosfstools gptfdisk
 
+    # Add 'resume' kernel parameter
+    if ! grep -q "^HOOKS.*resume" /etc/mkinitcpio.conf; then
+        sed -i -e 's/^HOOKS=(\(.*\))/HOOKS=(\1 resume)/' /etc/mkinitcpio.conf
+    fi
+
     # Initramfs erzeugen
     mkinitcpio -p linux
 
@@ -93,7 +98,7 @@ if is_archlinux; then
         echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch-uefi.conf
     fi
     echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch-uefi.conf
-    echo "options root=LABEL=ROOT rw resume=LABEL=SWAP" >> /boot/loader/entries/arch-uefi.conf
+    echo 'options root="LABEL=ROOT" rw resume="LABEL=SWAP"' >> /boot/loader/entries/arch-uefi.conf
     # Config Arch Linux (LTS)
     echo "title Arch Linux LTS" > /boot/loader/entries/arch-uefi-lts.conf
     echo "linux /vmlinuz-linux-lts" >> /boot/loader/entries/arch-uefi-lts.conf
@@ -103,7 +108,7 @@ if is_archlinux; then
         echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch-uefi-lts.conf
     fi
     echo "initrd /initramfs-linux-lts.img" >> /boot/loader/entries/arch-uefi-lts.conf
-    echo "options root=LABEL=ROOT rw resume=LABEL=SWAP" >> /boot/loader/entries/arch-uefi-lts.conf
+    echo 'options root="LABEL=ROOT" rw resume="LABEL=SWAP"' >> /boot/loader/entries/arch-uefi-lts.conf
     # Config Arch Linux (fallback)
     echo "title Arch Linux Fallback" > /boot/loader/entries/arch-uefi-fallback.conf
     echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch-uefi-fallback.conf
@@ -113,7 +118,7 @@ if is_archlinux; then
         echo "initrd /intel-ucode.img" >> /boot/loader/entries/arch-uefi-fallback.conf
     fi
     echo "initrd /initramfs-linux-fallback.img" >> /boot/loader/entries/arch-uefi-fallback.conf
-    echo "options root=LABEL=ROOT rw resume=LABEL=SWAP" >> /boot/loader/entries/arch-uefi-fallback.conf
+    echo 'options root="LABEL=ROOT" rw resume="LABEL=SWAP"' >> /boot/loader/entries/arch-uefi-fallback.conf
     # Config Loader
     echo "default arch-uefi.conf" > /boot/loader/loader.conf
     echo "timeout 4" >> /boot/loader/loader.conf
