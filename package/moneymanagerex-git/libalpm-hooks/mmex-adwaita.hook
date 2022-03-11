@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = moneymanagerex-git
+
+[Action]
+Description = Changing the theme of mmex to Adwaita
+When = PostTransaction
+Exec = /bin/bash -c "/bin/sed -i 's/Exec=mmex/Exec=env GTK_THEME=Adwaita mmex/g' /usr/share/applications/mmex.desktop"
