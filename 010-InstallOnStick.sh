@@ -233,6 +233,9 @@ grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy"
 info "Refreshing Arch Keyring..."
 pacman --noconfirm -S gnupg archlinux-keyring
 
+# Create key directory (as gpg otherwise throws a Fatal error)
+sudo -u "$name" mkdir -p /home/$name/.local/share/gnupg
+
 if is_artixlinux; then
     pacman --noconfirm -S artix-archlinux-support artix-keyring
 fi
