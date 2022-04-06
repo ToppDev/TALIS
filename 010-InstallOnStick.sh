@@ -296,6 +296,7 @@ sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T '"$(nproc)"' -z -)/g' /et
 
 info "Synchronizing time..."
 ntpdate 0.europe.pool.ntp.org
+hwclock --systohc
 
 # ########################################################################################################## #
 #                                              Update mirrorlist                                             #
