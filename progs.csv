@@ -137,6 +137,7 @@ A,zotero,"is the Zotero Standalone. Is a free, easy-to-use tool to help you coll
 ,arc-gtk-theme,"is a flat theme with transparent elements for GTK 3, GTK 2 and Gnome-Shell"
 ,barrier,"is a open-source KVM software based on Synergy (GUI)"
 A,betterlockscreen,"is a simple, minimal lockscreen"
+,btop,"A monitor of system resources, bpytop ported to C++"
 ,cabextract,"is a program to extract Microsoft cabinet (.CAB) files"
 ,cups,"is the CUPS Printing System - daemon package"
 ,cups-pdf,"is a PDF printer for cups"
