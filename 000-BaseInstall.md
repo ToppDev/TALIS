@@ -85,11 +85,11 @@ Then repartition the drive (in this example `/dev/sda` is used)
   fdisk /dev/sda
       p          # Print the partition table
       d          # Delete previous partitions
-      n, +1G,    # Create EFI partition
+      n, +512M,  # Create EFI partition
       n, +18G,   # Create Swap partition
       n, Enter   # Create Linux filesystem
-      t, 1, 1    # Assign the type to 'EFI System'
-      t, 2, 19   # Assign the type to 'Linux swap'
+      t, 1, uefi # Assign the type to 'EFI System'
+      t, 2, swap # Assign the type to 'Linux swap'
       w          # write table to disk and exit
   ```
 - ArchLinux (gdisk):
@@ -98,7 +98,7 @@ Then repartition the drive (in this example `/dev/sda` is used)
   gdisk /dev/sda
       p              # Print the partition table
       d              # Delete previous partitions
-      n, +1G,   EF00 # Create EFI partition
+      n, +512M, EF00 # Create EFI partition
       n, +18G,  8200 # Create Swap partition
       n, Enter, 8300 # Create Linux filesystem
       w          # write table to disk and exit
