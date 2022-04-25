@@ -1,8 +1,6 @@
-brunnerh.insert-unicode
 cheshirekow.cmake-format
 cschlosser.doxdocgen
 eamodio.gitlens
-efbenson.scad
 emilast.LogFileHighlighter
 fabiospampinato.vscode-open-in-application
 geoffkaile.latex-count
@@ -12,6 +10,7 @@ James-Yu.latex-workshop
 janisdd.vscode-edit-csv
 jomeinaster.bracket-peek
 kruemelkatze.vscode-dashboard
+maziac.hex-hover-converter
 mechatroner.rainbow-csv
 ms-vscode.cpptools
 ms-vsliveshare.vsliveshare
