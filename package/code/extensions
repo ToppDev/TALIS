@@ -1,5 +1,6 @@
 cheshirekow.cmake-format
 cschlosser.doxdocgen
+CurlyBrackets.markdown-word-count
 eamodio.gitlens
 emilast.LogFileHighlighter
 fabiospampinato.vscode-open-in-application
@@ -18,11 +19,13 @@ ms-vsliveshare.vsliveshare
 mschababerle.status-bar-param
 notskm.clang-tidy
 Remisa.mathover
+rust-lang.rust-analyzer
 shd101wyy.markdown-preview-enhanced
 stackbreak.comment-divider
 streetsidesoftware.code-spell-checker
 streetsidesoftware.code-spell-checker-german
 twxs.cmake
+vadimcn.vscode-lldb
 vscode-icons-team.vscode-icons
 xaver.clang-format
 yzhang.markdown-all-in-one
