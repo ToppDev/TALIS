@@ -71,7 +71,6 @@ A,conan,"is a distributed, open source, C/C++ package manager."
 ,perl-xml-twig,"is a module for easy processing of XML"
 ,pdf2svg,"is a pdf to svg converter"
 ,rustup,"is the Rust toolchain installer"
-,rust-analyzer,"is the Rust compiler front-end for IDEs"
 ,texlive-most,"is a group, that contains most TeX Live packages."
 ,valgrind,"is a tool to help find memory-management problems in programs"
 ##############################################################################################################

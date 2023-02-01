@@ -22,5 +22,10 @@ source "$scriptdir/helper/checkArchRootInternet.sh"
 rustup default stable
 
 rustup component add rust-src
+rustup component add rust-analyzer
 rustup component add clippy
 rustup component add rustfmt
+
+# Install cargo subcommands
+cargo install cargo-update # Update all installed via: cargo install-update -a
+cargo install cargo-watch  # Run command when file changes: cargo watch [-x command]...
