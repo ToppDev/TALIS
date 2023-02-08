@@ -18,7 +18,10 @@ source "$scriptdir/helper/checkArchRootInternet.sh"
 #                                                   Script                                                   #
 # ########################################################################################################## #
 
-wget -P /tmp -nc https://installers.privateinternetaccess.com/download/pia-linux-3.1-06756.run
+version=$(curl -s https://www.privateinternetaccess.com/download/linux-vpn \
+          | grep '"download_linux"' \
+          | sed 's/.*https:\/\/installers.privateinternetaccess.com\/download\/pia-linux-\([^"]*\).*/\1/')
+wget -P /tmp -nc https://installers.privateinternetaccess.com/download/pia-linux-$version
 chmod +x /tmp/pia-linux-*.run
 /tmp/pia-linux-*.run
 rm -f /tmp/pia-linux-*.run
