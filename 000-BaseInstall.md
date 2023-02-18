@@ -133,7 +133,7 @@ swapon -L SWAP                       # Swap
 - ArchLinux:
   ```bash
   # Install base system
-  pacstrap /mnt base base-devel linux linux-firmware vim git bash-completion
+  pacstrap -K /mnt base base-devel linux linux-firmware vim git bash-completion
 
   # Generate an fstab file
   genfstab -U /mnt >> /mnt/etc/fstab
