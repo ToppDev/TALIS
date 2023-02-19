@@ -7,7 +7,7 @@
 #                                               Helper scripts                                               #
 # ########################################################################################################## #
 
-export scriptdir="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+packagedir="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/.."
 
 source "$scriptdir/helper/color.sh"
 source "$scriptdir/helper/log.sh"
@@ -16,14 +16,8 @@ source "$scriptdir/helper/install.sh"
 source "$scriptdir/helper/checkArchRootInternet.sh"
 
 # ########################################################################################################## #
-#                                              Check Arch distro                                             #
+#                                                   Script                                                   #
 # ########################################################################################################## #
 
-check_arch_internet
-
-for package in $scriptdir/packages/*; do
-  if [ -f "$package/hooks/backup.sh" ]; then
-    info "Backing up \`${package##*/}\`"
-    sh "$package/hooks/backup.sh"
-  fi
-done
+sudo cp /usr/share/wayland-sessions/wrapped_hl.desktop $packagedir/config/wayland-sessions/wrapped_hl.desktop
+sudo cp /usr/local/bin/wrappedhl $packagedir/config/wrappedhl

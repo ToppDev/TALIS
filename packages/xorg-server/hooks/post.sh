@@ -23,9 +23,14 @@ if lspci -v | grep -A1 -e VGA -e 3D | grep -q "Intel"; then
     installpkg xf86-video-intel mesa lib32-mesa vulkan-intel lib32-vulkan-intel
     # Problems with some intel chips (https://wiki.archlinux.de/title/Intel)
     sudo sed -i 's/MODULES=()/MODULES=(intel_agp i915)/g' /etc/mkinitcpio.conf
-    sudo mkinitcpio -p linux
+    sudo mkinitcpio -P
 elif lspci -v | grep -A1 -e VGA -e 3D | grep -q "NVIDIA"; then
-    installpkg nvidia nvidia-utils nvidia-settings lib32-nvidia-utils
+    installpkg nvidia-dkms nvidia-utils nvidia-settings lib32-nvidia-utils
+    sudo sed -i 's/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g' /etc/mkinitcpio.conf
+    sudo mkinitcpio -P
+    sudo sh -c "echo 'options nvidia-drm modeset=1' > /etc/modprobe.d/nvidia.conf"
+    sudo mkdir -p /etc/pacman.d/hooks
+    sudo cp $packagedir/config/nvidia.hook /etc/pacman.d/hooks/nvidia.hook
 elif lspci -v | grep -A1 -e VGA -e 3D | grep -q "AMD"; then
     installpkg xf86-video-amdgpu mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon
 elif lspci -v | grep -A1 -e VGA -e 3D | grep -q "ATI"; then

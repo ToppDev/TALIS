@@ -51,24 +51,27 @@ putdotfiles() {
 # Installs $1 manually. Used only for AUR helper here.
 # Adapted from LARBS by Luke Smith (https://github.com/LukeSmithxyz/LARBS)
 manualinstall() {
-    # Should be run after repodir is created and var is set.
-    info "Installing \`$1\`"
-    mkdir -p "$repodir/$1"
-    git clone --depth 1 "https://aur.archlinux.org/$1.git" "$repodir/$1" >/dev/null 2>&1 ||
-        { cd "$repodir/$1" || return 1 ; git pull --force origin master;}
-    cd "$repodir/$1"
-    sudo -u "$(whoami)" -D "$repodir/$1" makepkg --noconfirm -si >/dev/null 2>&1 || return 1
+    info "Manually installing \`$1\` ($n of $total) from the AUR - $2"
+    if pacman -Qs $1 >> /dev/null; then
+        mkdir -p "/tmp/TALIS/$1"
+        git clone --depth 1 "https://aur.archlinux.org/$1.git" "/tmp/TALIS/$1" >/dev/null 2>&1 ||
+            { cd "/tmp/TALIS/$1" || return 1 ; git pull --force origin master;}
+        cd "/tmp/TALIS/$1"
+        sudo -u "$(whoami)" -D "/tmp/TALIS/$1" makepkg --noconfirm -si >/dev/null 2>&1 || return 1
+    else
+        echo "  $1 is already installed. There is nothing to do."
+    fi
 }
 
 # Installs all needed programs from main repo.
 # Adapted from LARBS by Luke Smith (https://github.com/LukeSmithxyz/LARBS)
 maininstall() {
-    info "Installing \`$1\` ($n of $total). $1 $2"
+    info "Installing \`$1\` ($n of $total) - $2"
     installpkg "$1"
 }
 
 aurinstall() { \
-    info "Installing \`$1\` ($n of $total) from the AUR. $1 $2"
+    info "Installing \`$1\` ($n of $total) from the AUR - $2"
     installaur "$1"
 }
 
@@ -80,7 +83,7 @@ gitmakeinstall() {
 
     progname="$(basename "$repo" .git)"
     dir="$repodir/$progname"
-    info "Installing \`$progname\` ($n of $total) via \`git\` and \`make\`. $progname $comment"
+    info "Installing \`$progname\` ($n of $total) via \`git\` and \`make\` - $comment"
     git clone --depth 1 "$repo" "$dir" >/dev/null 2>&1 || { cd "$dir" || return 1 ; git pull --force origin master;}
     # Spawn subshell
     (cd "$dir" && make >/dev/null 2>&1 && sudo make install >/dev/null 2>&1)
@@ -89,7 +92,7 @@ gitmakeinstall() {
 # Install the specified pip package
 # Adapted from LARBS by Luke Smith (https://github.com/LukeSmithxyz/LARBS)
 pipinstall() { \
-    info "Installing the Python package \`$1\` ($n of $total). $1 $2"
+    info "Installing the Python package \`$1\` ($n of $total) - $2"
     [ -x "$(command -v "pip")" ] || installpkg python-pip >/dev/null 2>&1
     yes | pip install "$1"
 }
@@ -104,26 +107,27 @@ installationloop() {
         n=$((n+1))
         echo "$comment" | grep -q "^\".*\"$" && comment="$(echo "$comment" | sed "s/\(^\"\|\"$\)//g")"
 
-        if [ -f "$scriptdir/package/$program/hooks/pre.sh" ]; then
+        if [ -f "$scriptdir/packages/$program/hooks/pre.sh" ]; then
             info "Executing pre-installation hook for \`$program\`"
-            sh "$scriptdir/package/$program/hooks/pre.sh"
+            sh "$scriptdir/packages/$program/hooks/pre.sh"
         fi
 
-        if [ -f "$scriptdir/package/$program/hooks/install.sh" ]; then
-            info "Installing \`$program\` ($n of $total). $program $comment"
-            sh "$scriptdir/package/$program/hooks/install.sh"
+        if [ -f "$scriptdir/packages/$program/hooks/install.sh" ]; then
+            info "Installing \`$program\` ($n of $total) - $comment"
+            sh "$scriptdir/packages/$program/hooks/install.sh"
         else
             case "$tag" in
                 "A") aurinstall "$program" "$comment" ;;
                 "G") gitmakeinstall "$program" "$comment" ;;
                 "P") pipinstall "$program" "$comment" ;;
+                "M") manualinstall "$program" "$comment" ;;
                 *) maininstall "$program" "$comment" ;;
             esac
         fi
 
-        if [ -f "$scriptdir/package/$program/hooks/post.sh" ]; then
+        if [ -f "$scriptdir/packages/$program/hooks/post.sh" ]; then
             info "Executing post-installation hook for \`$program\`"
-            sh "$scriptdir/package/$program/hooks/post.sh"
+            sh "$scriptdir/packages/$program/hooks/post.sh"
         fi
     done < /tmp/progs.csv
 }

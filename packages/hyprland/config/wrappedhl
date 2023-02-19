@@ -1,0 +1,28 @@
+#!/bin/sh
+
+cd ~
+echo "$HOME" >> /tmp/wrap
+source $HOME/.config/shell/profile
+
+# Log WLR errors and logs to the hyprland log. Recommended
+export HYPRLAND_LOG_WLR=1
+
+# Tell XWayland to use a cursor theme
+export XCURSOR_THEME=Breeze_Snow
+
+# Set a cursor size
+export XCURSOR_SIZE=24
+
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+if lspci -v | grep -A1 -e VGA -e 3D | grep -q "NVIDIA"; then
+  export LIBVA_DRIVER_NAME=nvidia
+  export XDG_SESSION_TYPE=wayland
+  # Forces GBM as backend
+  export GBM_BACKEND=nvidia-drm
+  export __GLX_VENDOR_LIBRARY_NAME=nvidia
+
+  export WLR_NO_HARDWARE_CURSORS=1
+fi
+
+exec Hyprland
