@@ -19,5 +19,5 @@ source "$scriptdir/helper/checkArchRootInternet.sh"
 #                                                   Script                                                   #
 # ########################################################################################################## #
 
-sudo cp /usr/share/wayland-sessions/wrapped_hl.desktop $packagedir/config/wayland-sessions/wrapped_hl.desktop
-sudo cp /usr/local/bin/wrappedhl $packagedir/config/wrappedhl
+[ -f /usr/share/wayland-sessions/wrapped_hl.desktop ] && sudo cp /usr/share/wayland-sessions/wrapped_hl.desktop $packagedir/config/wayland-sessions/wrapped_hl.desktop
+[ -f /usr/local/bin/wrappedhl ] && sudo cp /usr/local/bin/wrappedhl $packagedir/config/wrappedhl

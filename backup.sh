@@ -23,7 +23,7 @@ check_arch_internet
 
 for package in $scriptdir/packages/*; do
   if [ -f "$package/hooks/backup.sh" ]; then
-    info "Backing up \`${package##*/}\`"
+    echo "    Backing up \`${package##*/}\`"
     sh "$package/hooks/backup.sh"
   fi
 done
