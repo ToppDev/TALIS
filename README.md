@@ -10,15 +10,11 @@
     cd TALIS && ./010-InstallOnStick.sh
     ```
 - Reboot the system and login into the installed system as the user you created
-- Then execute the script
+- Then execute the `100-PostInstallationConfig.sh` script. If you have personal scripts to execute this can be done via the `--privaterepo` option (replace the URL with your own)
     ```
-    sh ~/.local/src/TALIS/100-PostInstallationConfig.sh -r https://github.com/ToppDev/dotfiles.git
+    sh ~/.local/src/TALIS/100-PostInstallationConfig.sh --dotfiles="https://github.com/ToppDev/dotfiles.git" --privaterepo="https://github.com/ToppDev/TALIS-private.git"
     ```
-- If you have personal scripts to execute afterwards this can be done via (replace the URL with your own)
-    ```
-   sh ~/.local/src/TALIS/200-PersonalConfig.sh -r https://github.com/ToppDev/TALIS-private.git
-   ```
-   It simply puts your private repo into the folder `~/.local/src` and then executes the script `private.sh` within it.
+   The private repo executes the script `restore.sh` within it.
 
 ## What is TALIS?
 

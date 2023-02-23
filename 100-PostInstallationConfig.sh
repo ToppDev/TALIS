@@ -24,30 +24,52 @@ source "$scriptdir/helper/sudo.sh"
 
 # Print the usage message
 usage() {
-    echo "Required arguments:"
-    echo "  -r: Dotfiles repository (local file or url)"
-    echo "  -p: Dependencies and programs csv (local file or url)"
     echo "Optional arguments:"
-    echo "  -h: Show this message"
+    echo "  -p | --progs     Dependency and programs csv (local file or url) (Default: ./progs.csv)"
+    echo "  -d | --dotfiles  Dotfiles repository. Empty to do nothing. (Default: Empty)"
+    echo "  --dotbranch      Branch of the Dotfiles repository (Default: main)"
+    echo "  --privaterepo    Private script repository (Default: Empty)"
+    echo "  --privatebranch  Branch of the private script repository (Default: main)"
+    echo "  -h               Show this message"
     exit 1
 }
 
-while getopts ":a:r:b:p:h" flag; do
-    case "${flag}" in
-        h) usage ;;
-        r) dotfilesrepo=${OPTARG} ;;
-        b) repobranch=${OPTARG} ;;
-        p) progsfile=${OPTARG} ;;
-        *) printf "Invalid option: -%s\\n" "$OPTARG" && exit 1 ;;
-    esac
+# NOTE: This requires GNU getopt.  On Mac OS X and FreeBSD, you have to install this
+# separately; see below. (see https://stackoverflow.com/a/7948533)
+TEMP=$(getopt -o hp:d: --long progs:,dotfiles:,dotbranch:,privaterepo:,privatebranch: \
+              -- "$@")
+
+if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
+
+# Note the quotes around '$TEMP': they are essential!
+eval set -- "$TEMP"
+
+while true; do
+  case "$1" in
+    -h ) usage ;;
+    -p | --progs ) progsfile="$2"; shift 2 ;;
+    -d | --dotfiles ) dotfilesrepo="$2"; shift 2 ;;
+    --dotbranch ) dotfilesbranch="$2"; shift 2 ;;
+    --privaterepo ) privaterepo="$2"; shift 2 ;;
+    --privatebranch ) privatebranch="$2"; shift 2 ;;
+    -- ) shift; break ;;
+    * ) break ;;
+  esac
 done
 
-[ -z "$dotfilesrepo" ] && echo -e "Dotfiles repository is required. Please specify -r\\n" && usage
-[ -z "$repobranch" ] && repobranch="main"
 [ -z "$progsfile" ] && progsfile="$scriptdir/progs.csv"
+[ -z "$dotfilesbranch" ] && dotfilesbranch="main"
+[ -z "$privatebranch" ] && privatebranch="main"
 
-git config --global credential.helper 'cache --timeout=3600'
-git ls-remote "$dotfilesrepo" -b $repobranch | grep -q $repobranch || error "The remote repository \"$dotfilesrepo\" on branch \"$repobranch\" can't be accessed."
+git config credential.helper >> /dev/null || git config --global credential.helper 'cache --timeout=3600'
+
+if [ ! -z "$dotfilesrepo" ]; then
+  git ls-remote "$dotfilesrepo" -b $dotfilesbranch | grep -q $dotfilesbranch || error "The remote repository \"$dotfilesrepo\" on branch \"$dotfilesbranch\" can't be accessed."
+fi
+
+if [ ! -z "$privaterepo" ]; then
+  git ls-remote "$privaterepo" -b $privatebranch | grep -q $privatebranch || error "The remote repository \"$privaterepo\" on branch \"$privatebranch\" can't be accessed."
+fi
 
 # ########################################################################################################## #
 #                                              Check Arch distro                                             #
@@ -69,13 +91,14 @@ sudoperms "%wheel ALL=(ALL) NOPASSWD: ALL"
 #                                                  Dotfiles                                                  #
 # ########################################################################################################## #
 
-box "Installing Dotfiles"
+if [ ! -z "$dotfilesrepo" ]; then
+  box "Installing Dotfiles"
 
-# Install the dotfiles in the user's home directory
-putdotfiles "$dotfilesrepo" "$repobranch"
+  # Install the dotfiles in the user's home directory
+  putdotfiles "$dotfilesrepo" "$dotfilesbranch"
 
-[ -f $HOME/.config/shell/profile ] && source $HOME/.config/shell/profile
-
+  [ -f $HOME/.config/shell/profile ] && source $HOME/.config/shell/profile
+fi
 
 # ########################################################################################################## #
 #                                            Package installation                                            #
@@ -87,14 +110,35 @@ installationloop
 #                                                  Dotfiles                                                  #
 # ########################################################################################################## #
 
-box "Resetting Dotfiles"
+if [ ! -z "$dotfilesrepo" ]; then
+  box "Resetting Dotfiles"
 
-# Reset the dotfiles in the user's home directory
-putdotfiles "$dotfilesrepo" "$repobranch"
+  # Reset the dotfiles in the user's home directory
+  putdotfiles "$dotfilesrepo" "$dotfilesbranch"
+fi
 
 mkdir -p "/home/$(whoami)/Downloads"
 mkdir -p "/home/$(whoami)/Documents"
 mkdir -p "/home/$(whoami)/Pictures"
+mkdir -p "/home/$(whoami)/Videos"
+
+# ########################################################################################################## #
+#                                               Private script                                               #
+# ########################################################################################################## #
+
+if [ ! -z "$privaterepo" ]; then
+  box "Storing TALIS private script in user folder"
+
+  if [ ! -d $repodir/TALIS-private ]; then
+    git clone $privaterepo $repodir/TALIS-private -b $privatebranch
+  else
+    git --git-dir "$repodir/TALIS-private/.git" --work-tree "$repodir/TALIS-private" pull
+  fi
+
+  info "Executing TALIS private restore script"
+
+  sh $repodir/TALIS-private/restore.sh
+fi
 
 # ########################################################################################################## #
 #                                            Misc program configs                                            #

@@ -52,7 +52,7 @@ putdotfiles() {
 # Adapted from LARBS by Luke Smith (https://github.com/LukeSmithxyz/LARBS)
 manualinstall() {
     info "Manually installing \`$1\` ($n of $total) from the AUR - $2"
-    if pacman -Qs $1 >> /dev/null; then
+    if ! pacman -Qs $1 >> /dev/null; then
         mkdir -p "/tmp/TALIS/$1"
         git clone --depth 1 "https://aur.archlinux.org/$1.git" "/tmp/TALIS/$1" >/dev/null 2>&1 ||
             { cd "/tmp/TALIS/$1" || return 1 ; git pull --force origin master;}
@@ -84,7 +84,7 @@ gitmakeinstall() {
     progname="$(basename "$repo" .git)"
     dir="$repodir/$progname"
     info "Installing \`$progname\` ($n of $total) via \`git\` and \`make\` - $comment"
-    git clone --depth 1 "$repo" "$dir" >/dev/null 2>&1 || { cd "$dir" || return 1 ; git pull --force origin master;}
+    git clone --depth 1 "$repo" "$dir" >/dev/null 2>&1 || { cd "$dir" || return 1 ; git pull --force origin; }
     # Spawn subshell
     (cd "$dir" && make >/dev/null 2>&1 && sudo make install >/dev/null 2>&1)
 }
@@ -101,7 +101,8 @@ pipinstall() { \
 # Adapted from LARBS by Luke Smith (https://github.com/LukeSmithxyz/LARBS)
 installationloop() {
     ([ -f "$progsfile" ] && cp "$progsfile" /tmp/progs.csv) || curl -Ls "$progsfile" > /tmp/progs.csv
-    sed -i '/^#/d' /tmp/progs.csv
+    sed -i '/^#/d' /tmp/progs.csv # Remove comment lines starting with #
+    sed -i '/^$/d' /tmp/progs.csv # Remove empty lines
     total=$(wc -l < /tmp/progs.csv)
     while IFS=, read -r tag program comment; do
         n=$((n+1))
