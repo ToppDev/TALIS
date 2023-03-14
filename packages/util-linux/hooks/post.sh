@@ -18,6 +18,5 @@ source "$scriptdir/helper/checkArchRootInternet.sh"
 #                                                   Script                                                   #
 # ########################################################################################################## #
 
-# Enable service
-sudo systemctl enable gdm.service
-sudo ln -s /dev/null /etc/udev/rules.d/61-gdm.rules
+# See https://wiki.archlinux.org/title/Solid_state_drive#Periodic_TRIM
+sudo systemctl enable fstrim.timer

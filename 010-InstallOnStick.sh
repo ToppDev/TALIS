@@ -121,7 +121,7 @@ if is_archlinux; then
     echo 'options root="LABEL=ROOT" rw resume="LABEL=SWAP"' >> /boot/loader/entries/arch-uefi-fallback.conf
     # Config Loader
     echo "default arch-uefi.conf" > /boot/loader/loader.conf
-    echo "timeout 4" >> /boot/loader/loader.conf
+    echo "timeout 0" >> /boot/loader/loader.conf
     echo "editor no" >> /boot/loader/loader.conf
     echo "#console-mode keep" >> /boot/loader/loader.conf
 elif is_artixlinux; then
