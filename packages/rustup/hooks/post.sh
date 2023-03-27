@@ -27,5 +27,6 @@ rustup component add clippy
 rustup component add rustfmt
 
 # Install cargo subcommands
+cargo install sccache      # Speed up compilation by caching
 cargo install cargo-update # Update all installed via: cargo install-update -a
 cargo install cargo-watch  # Run command when file changes: cargo watch [-x command]...
