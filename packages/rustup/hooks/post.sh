@@ -26,6 +26,8 @@ rustup component add rust-analyzer
 rustup component add clippy
 rustup component add rustfmt
 
+sudo ln -s $(rustup which rust-analyzer ) /usr/local/bin/rust-analyzer
+
 # Install cargo subcommands
 cargo install sccache      # Speed up compilation by caching
 cargo install cargo-update # Update all installed via: cargo install-update -a
