@@ -25,6 +25,7 @@ G,https://github.com/ToppDev/dwmblocks.git,"serves as the modular status bar."
 ,xfce4-notifyd,"is the notification daemon for the Xfce desktop"
 ,xorg-apps,"is an app group which provides utility tools to work with X."
 ,numlockx,"turns on the numlock key in X11."
+,zenity,"Display graphical dialog boxes from shell scripts"
 
 ## ------------------------------------------------ Wayland ----------------------------------------------- ##
 ,arc-gtk-theme,"is a flat theme with transparent elements for GTK 3, GTK 2 and Gnome-Shell"
@@ -114,7 +115,7 @@ A,marksman-bin,"Markdown LSP server providing completion, cross-references, diag
 ,pdf2svg,"is a pdf to svg converter"
 ,python-lsp-server,"Fork of the python-language-server project, maintained by the Spyder IDE team and the community"
 ,texlab,"A cross-platform implementation of the Language Server Protocol for LaTeX."
-,texlive-most,"is a group, that contains most TeX Live packages."
+,texlive,"is a group, that contains most TeX Live packages."
 ,tmux,"is a terminal multiplexer"
 ,valgrind,"is a tool to help find memory-management problems in programs"
 ##############################################################################################################
